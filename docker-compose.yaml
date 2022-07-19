@@ -1,0 +1,86 @@
+# Docs: https://docs.docker.com/compose/compose-file/compose-file-v3/
+version: '3.4'
+services:
+  back-end:    
+    build: ./
+    container_name: back-end
+    restart: unless-stopped
+    tty: true    
+    networks:
+      - backend-network  
+    deploy:
+      replicas: 2 
+      mode: replicated
+      labels: [APP=BACKEND] 
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        window: 120s
+    environment:
+      - APP_KEY=${BACK_END_APP_KEY:-}    
+    volumes:
+      - composer:/var/www/back-end/vendor      
+      - ./back-end/:/var/www/back-end # Dev-Only   
+
+  proxy: 
+    image: nginx:1.21
+    container_name: proxy
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"   
+    depends_on:
+      - back-end
+  
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:        
+        delay: 10s
+        order: start-first
+      placement:
+        constraints:
+          - "node.role==manager"
+    networks:
+      - backend-network
+    volumes:      
+      - ./:/var/www/back-end    
+      - ./infra/proxy/app.dev.conf:/etc/nginx/conf.d/app.conf
+      - ./infra/proxy/common/base.conf:/etc/nginx/conf.d/common/base.conf
+
+  db:
+    image: mysql:8.0.26
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-app}
+      MYSQL_ROOT_PASSWORD: pass_root
+      MYSQL_USER: ${DB_USERNAME:-user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-pass_user}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./infra/db:/var/lib/mysql-files      
+    networks:
+      - backend-network      
+
+
+networks:
+  backend-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
+  composer:
+    driver: local

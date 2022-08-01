@@ -55,24 +55,16 @@
           @endif
           
           <li class="nav-item">
-            <a href="{{ route('users.index') }}" class="nav-link @if(request()->route()->named('users.*')) activsse @endif">
-              <i class="nav-icon fas fa-file-invoice"></i>              
+            <a href="{{ route('cash_register.index') }}" class="nav-link @if(request()->route()->named('cash_register.*')) active @endif">
+              <i class="nav-icon fas fa-cash-register"></i>              
               <p>
-                Requisiciones
+                Caja
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li> 
 
-          <li class="nav-item">
-            <a href="{{ route('users.index') }}" class="nav-link @if(request()->route()->named('users.*')) actissve @endif">
-              <i class="nav-icon fas fa-file-invoice-dollar"></i>
-              <p>
-                Ordenes de compra
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li> 
+          
           
         </ul>
         <form method="post" class="fixed-bottom px-2" action="{{ route('logout') }}">

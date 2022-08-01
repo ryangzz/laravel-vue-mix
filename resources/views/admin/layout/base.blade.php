@@ -23,7 +23,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
       @include('admin.layout.content-header')    
     @endif
 
-    @yield('content')
+    <div id="app">
+      @yield('content')
+    </div>
   </div>
   <!-- /.content-wrapper -->
 
@@ -43,6 +45,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-  @include('admin.layout.scripts')    
+  @include('admin.layout.scripts')   
+    
+  
 </body>
 </html>

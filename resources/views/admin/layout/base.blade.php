@@ -22,8 +22,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @if($require_header ?? false)   
       @include('admin.layout.content-header')    
     @endif
-
-    @yield('content')
+  
+    <div id="app">      
+      @yield('content')
+    </div>
   </div>
   <!-- /.content-wrapper -->
 

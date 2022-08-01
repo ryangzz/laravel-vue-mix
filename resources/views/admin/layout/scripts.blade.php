@@ -4,3 +4,5 @@
 <script src="{{ url('admin_template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ url('admin_template/dist/js/adminlte.min.js') }}"></script>
+
+<script src="{{ url('js/app.js') }}"></script>

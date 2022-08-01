@@ -8,16 +8,29 @@
                     <div class="card-body">
                         I'm an example component.
                     </div>
+
+                    <button @click="state.count++">Add {{ state.count }}</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
+<script setup>
+    import { reactive, ref } from '@vue/reactivity'
+    import { onMounted, watch } from '@vue/runtime-core';
+    
+    const state = reactive({count : 0});
+
+    onMounted(() => {
+        console.log("entra");
+    })
+
+    watch(
+        () => state.count,
+        (count, prevCount) => {
+            console.log(count, prevCount);
         }
-    }
+    )
+    
 </script>

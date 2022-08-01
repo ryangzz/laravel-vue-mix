@@ -23,7 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       @include('admin.layout.content-header')    
     @endif
   
-    <div id="app">      
+    <div id="app">
+      <example-component></example-component>      
       @yield('content')
     </div>
   </div>

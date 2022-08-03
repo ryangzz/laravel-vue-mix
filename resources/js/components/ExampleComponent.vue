@@ -6,18 +6,35 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component. 2 
+                        Name: <strong>{{ name }}({{wordCount}})</strong>
                     </div>
+
+                    <button @click="add">Add {{ count }}</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+<script lang="ts">
+import { computed, defineComponent, reactive, ref } from "vue";
+
+export default defineComponent({
+  components: {
+  },
+  setup() {
+    const count = ref(0);
+    const name = ref<string>("Bijaya");
+    const add = () => { count.value++; }
+
+    const wordCount = computed(() => name.value.length);
+
+    return {
+      name,
+      count,
+      add,
+      wordCount,
+    };
+  },
+});
 </script>

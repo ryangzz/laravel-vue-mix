@@ -6,31 +6,35 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        Name: <strong>{{ name }}({{wordCount}})</strong>
                     </div>
 
-                    <button @click="state.count++">Add {{ state.count }}</button>
+                    <button @click="add">Add {{ count }}</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-    import { reactive, ref } from '@vue/reactivity'
-    import { onMounted, watch } from '@vue/runtime-core';
-    
-    const state = reactive({count : 0});
+<script lang="ts">
+import { computed, defineComponent, reactive, ref } from "vue";
 
-    onMounted(() => {
-        console.log("entra");
-    })
+export default defineComponent({
+  components: {
+  },
+  setup() {
+    const count = ref(0);
+    const name = ref<string>("Bijaya");
+    const add = () => { count.value++; }
 
-    watch(
-        () => state.count,
-        (count, prevCount) => {
-            console.log(count, prevCount);
-        }
-    )
-    
+    const wordCount = computed(() => name.value.length);
+
+    return {
+      name,
+      count,
+      add,
+      wordCount,
+    };
+  },
+});
 </script>

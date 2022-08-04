@@ -8,7 +8,7 @@
     <section class="content container-fluid">
         <div class="row">
             <div class="col-12">                
-                <cash-register-component></cash-register-component>
+                <cash-register-container-component></cash-register-container-component>
             </div>
         </div>
     </section>

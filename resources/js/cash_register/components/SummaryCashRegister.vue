@@ -52,7 +52,7 @@
             <button
               type="button"
               class="close"
-              data-dismiss="modal"
+              @click="closeModal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
@@ -66,7 +66,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              @click="closeModal"              
             >
               Cerrar
             </button>
@@ -85,8 +85,11 @@ export default {
       $(this.$refs.modal_cash_register).modal('show')      
     },
     createCashRegisterModal(){
-        $(this.$refs.modal_cash_register).modal('hide')    
+        this.closeModal();
         this.$emit('cash-register-created')
+    },
+    closeModal(){
+      $(this.$refs.modal_cash_register).modal('hide')    
     }
   },
   

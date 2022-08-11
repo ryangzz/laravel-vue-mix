@@ -59,40 +59,67 @@
             </button>
           </div>
           <div class="modal-body">
-            <input class="form-control" placeholder="Monto Inicial ($)" type="text">
+            <input
+              class="form-control"
+              placeholder="Monto Inicial ($)"
+              type="text"
+            />
           </div>
           <div class="modal-footer">
-            
-            <button
-              type="button"
-              class="btn btn-secondary"
-              @click="closeModal"              
-            >
+            <button type="button" class="btn btn-secondary" @click="closeModal">
               Cerrar
             </button>
-            <button @click="createCashRegisterModal" type="button" class="btn btn-primary">Crear</button>
+            <button
+              @click="createCashRegisterModal"
+              type="button"
+              class="btn btn-primary"
+            >
+              Crear
+            </button>
           </div>
         </div>
       </div>
     </div>
+
+    <AppDialog v-model:visible="display" position="left">
+      <template #header>
+        <h3>Header</h3>
+      </template>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, autem. Est, consequuntur dolores! Saepe, dolores sequi aliquid dignissimos ea at alias quibusdam consequatur doloribus possimus excepturi, voluptates quos perspiciatis iure?</p>
+        </div>
+      </div>
+
+      <template #footer>
+        <AppButton label="No" icon="pi pi-times" class="p-button-text" />
+        <AppButton label="Yes" icon="pi pi-check" iconPos="right" autofocus />
+      </template>
+    </AppDialog>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    openCreateCashRegisterModal() {      
-      $(this.$refs.modal_cash_register).modal('show')      
-    },
-    createCashRegisterModal(){
-        this.closeModal();
-        this.$emit('cash-register-created')
-    },
-    closeModal(){
-      $(this.$refs.modal_cash_register).modal('hide')    
-    }
+  data(){
+    return {
+      display:false,
+    };
   },
-  
+  methods: {
+    openCreateCashRegisterModal() {
+      this.display = true;
+      //$(this.$refs.modal_cash_register).modal("show");
+    },
+    createCashRegisterModal() {
+      this.closeModal();
+      this.$emit("cash-register-created");
+    },
+    closeModal() {
+      $(this.$refs.modal_cash_register).modal("hide");
+    },
+  },
 };
 </script>
 

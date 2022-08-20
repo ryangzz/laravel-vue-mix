@@ -73,12 +73,24 @@
               </p>
             </a>
           </li> 
+
+          <li class="nav-item">
+            <form method="post" class="" action="{{ route('logout') }}">
+              @csrf
+              <button class="text-left btn btn-link fixed-bottom px-2 nav-link pl-4" href="javascript:this.parentNode.submit()">
+                
+                <i class="fas fa-sign-out-alt"></i>
+                <p>
+                  Cerrar Sesión
+                </p>
+              </button>
+            </form>
+          </li> 
+          
+          
           
         </ul>
-        <form method="post" class="fixed-bottom px-2" action="{{ route('logout') }}">
-          @csrf
-          <button class="btn btn-link" href="javascript:this.parentNode.submit()">Cerrar Sesion</button>
-        </form>
+        
       </nav>
       <!-- /.sidebar-menu -->
     </div>

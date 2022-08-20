@@ -16,7 +16,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import { computed, defineComponent, reactive, ref } from "vue";
 
 export default defineComponent({
@@ -24,7 +24,7 @@ export default defineComponent({
   },
   setup() {
     const count = ref(0);
-    const name = ref<string>("Bijaya");
+    const name = ref("Bijaya");
     const add = () => { count.value++; }
 
     const wordCount = computed(() => name.value.length);

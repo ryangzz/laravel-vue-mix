@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Abrir Caja</h3>
+      <h3 class="card-title">{{ title }}</h3>
     </div>
     <div class="card-body">
       <transition name="fade">
@@ -15,26 +15,42 @@
   </div>
 </template>
 
-<script >
+<script lang="ts">
+import { defineComponent } from "vue";
+
 import SummaryCashRegister from './components/SummaryCashRegister.vue';
 import CashRegister        from './components/CashRegister.vue';
-export default {
+
+export default defineComponent({
   data(){
-    return {
-      current_step : 1,
-      componentStep: 'SummaryCashRegister'
+    return {      
+      componentStep: ComponentOptions.CashRegister
     };
   },
+  computed:{
+    title() {
+      if(this.componentStep == ComponentOptions.CashRegister){
+        return 'Generar Venta';
+      }
+
+      return 'Crear Caja';
+    }
+  },  
   methods:{
-    cash_register_created(){
-      this.componentStep = 'CashRegister';
+    cash_register_created(): void{
+      this.componentStep = ComponentOptions.CashRegister;
     }
   },
   components:{
     SummaryCashRegister,
-    CashRegister
+    CashRegister,
   }
-};
+});
+
+enum ComponentOptions {
+  SummaryCashRegister = "SummaryCashRegister",
+  CashRegister = "CashRegister",
+}
 </script>
 
 <style scoped>

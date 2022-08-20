@@ -43,58 +43,24 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <div class="modal" ref="modal_cash_register" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Ingrese el monto inicial</h5>
-            <button
-              type="button"
-              class="close"
-              @click="closeModal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <input
-              class="form-control"
-              placeholder="Monto Inicial ($)"
-              type="text"
-            />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeModal">
-              Cerrar
-            </button>
-            <button
-              @click="createCashRegisterModal"
-              type="button"
-              class="btn btn-primary"
-            >
-              Crear
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    </div>   
 
-    <AppDialog v-model:visible="display" position="left">
+    <AppDialog v-model:visible="display" position="top">
       <template #header>
-        <h3>Header</h3>
+        <h3>Abrir Caja</h3>
       </template>
 
       <div class="row">
         <div class="col-md-12">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, autem. Est, consequuntur dolores! Saepe, dolores sequi aliquid dignissimos ea at alias quibusdam consequatur doloribus possimus excepturi, voluptates quos perspiciatis iure?</p>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Ingresa la cantidad a abrir caja</label>
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Monto Inicial ($)">            
+        </div>
         </div>
       </div>
-
       <template #footer>
-        <AppButton label="No" icon="pi pi-times" class="p-button-text" />
-        <AppButton label="Yes" icon="pi pi-check" iconPos="right" autofocus />
+        <AppButton label="No" @click="closeModal" icon="pi pi-times" class="p-button-text" />
+        <AppButton label="Yes" icon="pi pi-check" iconPos="right" @click="createCashRegisterModal" />
       </template>
     </AppDialog>
   </div>
@@ -109,15 +75,14 @@ export default {
   },
   methods: {
     openCreateCashRegisterModal() {
-      this.display = true;
-      //$(this.$refs.modal_cash_register).modal("show");
+      this.display = true;      
     },
     createCashRegisterModal() {
       this.closeModal();
       this.$emit("cash-register-created");
     },
     closeModal() {
-      $(this.$refs.modal_cash_register).modal("hide");
+      this.display = false;
     },
   },
 };

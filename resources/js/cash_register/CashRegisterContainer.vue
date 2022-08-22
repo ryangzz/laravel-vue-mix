@@ -6,8 +6,7 @@
     <div class="card-body">
       <transition name="fade">
         <component 
-          :is="componentStep"
-          @cash-register-created="cash_register_created"
+          :is="cash_register_step"          
           >
         </component>
       </transition>     
@@ -15,8 +14,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import { defineComponent } from "vue";
+import { mapGetters, mapState } from "vuex";
 
 import SummaryCashRegister from './components/SummaryCashRegister.vue';
 import CashRegister        from './components/CashRegister.vue';
@@ -24,22 +24,13 @@ import CashRegister        from './components/CashRegister.vue';
 export default defineComponent({
   data(){
     return {      
-      componentStep: ComponentOptions.CashRegister
     };
   },
   computed:{
-    title() {
-      if(this.componentStep == ComponentOptions.CashRegister){
-        return 'Generar Venta';
-      }
-
-      return 'Crear Caja';
-    }
+    ...mapState('cashRegister', ['cash_register_step', 'isOpen']),
+    ...mapGetters('cashRegister', ['title']),
   },  
   methods:{
-    cash_register_created(): void{
-      this.componentStep = ComponentOptions.CashRegister;
-    }
   },
   components:{
     SummaryCashRegister,
@@ -47,10 +38,6 @@ export default defineComponent({
   }
 });
 
-enum ComponentOptions {
-  SummaryCashRegister = "SummaryCashRegister",
-  CashRegister = "CashRegister",
-}
 </script>
 
 <style scoped>

@@ -245,7 +245,7 @@
   
 </template>
 
-<script lang="ts">
+<script lang="js">
 import { defineComponent } from "vue";
 
 import Card from "primevue/card";
@@ -263,10 +263,6 @@ import Tooltip from "primevue/tooltip";
 import Fieldset from "primevue/fieldset";
 import InputNumber from "primevue/inputnumber";
 
-interface Product {
-  name: string;
-  price: number;
-}
 
 export default defineComponent({
   data() {
@@ -440,13 +436,13 @@ export default defineComponent({
           numScroll: 2,
         },
       ],
-      cartProducts: Array<Product>(),
+      cartProducts: [],
       items: [
         {
           label: "Pagar",
           icon: "pi pi-money-bill",
           command: () => {
-            const toast = this.$refs.toast as any;
+            const toast = this.$refs.toast;
             toast.add({
               severity: "error",
               summary: "Delete",
@@ -458,7 +454,7 @@ export default defineComponent({
           label: "Borrar productos",
           icon: "pi pi-trash",
           command: () => {
-            const toast = this.$refs.toast as any;
+            const toast = this.$refs.toast;
             toast.add({
               severity: "error",
               summary: "Delete",
@@ -470,8 +466,8 @@ export default defineComponent({
           label: "Capturar código",
           icon: "fas fa-barcode",
           command: () => {
-            const toast = this.$refs.toast as any;
-            const x = this.$refs.inputBarcode as HTMLInputElement;
+            const toast = this.$refs.toast;
+            const x = this.$refs.inputBarcode;
             //x.focus();
             console.log(x.focus());
           },
@@ -480,7 +476,7 @@ export default defineComponent({
     };
   },
   computed: {
-    productsFiltered(): Array<any> {
+    productsFiltered(){
       if (this.searchTextFavorites == "") {
         return this.products;
       }
@@ -494,9 +490,9 @@ export default defineComponent({
   },
 
   methods: {
-    addCart(product: { name: string; price: number }) {
-      
-      const toast = this.$refs.toast as any;
+    addCart(product) {
+      this.$store.commit('cashRegister/getProducts');
+      const toast = this.$refs.toast;
 
       toast.add({
         severity: "success",
@@ -506,7 +502,7 @@ export default defineComponent({
 
       this.cartProducts.push(product);
     },
-    getColorCategory(index: number) {
+    getColorCategory(index) {
       const mod = index % 3;
 
       switch (mod) {
@@ -519,7 +515,7 @@ export default defineComponent({
       }
       return "p-button-success";
     },
-    openCategoryModal(category: { label: string }) {
+    openCategoryModal(category) {
       this.displayModalProductsCategory = true;
       this.titleCategoryModal = category.label;
     },

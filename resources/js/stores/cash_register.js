@@ -5,6 +5,7 @@ const cashRegister = {
     namespaced: true,
     state: () => ({
         products: [],
+        initialAmount: null,
         sells: [],
         isOpen:false,
         cash_register_step: cash_register_steps.SummaryCashRegister
@@ -35,6 +36,14 @@ const cashRegister = {
         }
     },
     actions: {
+        openCashRegister({state}, {initialAmount}){
+            state.cash_register_step = cash_register_steps.CashRegister;            
+            state.initialAmount = initialAmount;
+            state.isOpen = true;
+        },
+        closeCashRegister({state}, {finalAmount}){            
+            state.isOpen = false;
+        },
         generateSell({state, commit}){
 
         }

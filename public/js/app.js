@@ -23044,9 +23044,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _components_SummaryCashRegister_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SummaryCashRegister.vue */ "./resources/js/cash_register/components/SummaryCashRegister.vue");
 /* harmony import */ var _components_CashRegister_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/CashRegister.vue */ "./resources/js/cash_register/components/CashRegister.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23062,7 +23062,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {};
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)('cashRegister', ['cash_register_step', 'isOpen'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)('cashRegister', ['title'])),
-  methods: {},
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapMutations)('cashRegister', ['setCashRegisterStep1'])),
   components: {
     SummaryCashRegister: _components_SummaryCashRegister_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     CashRegister: _components_CashRegister_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
@@ -23380,7 +23380,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var primevue_inputnumber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! primevue/inputnumber */ "./node_modules/primevue/inputnumber/inputnumber.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23388,25 +23389,43 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      display: false
+      openCashModalVisible: false,
+      closeCashModalVisible: false,
+      finalAmount: null,
+      initialAmount: null
     };
   },
-  props: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)("cashRegister", ["isOpen"])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)('cashRegister', ['setCashRegisterStep2'])), {}, {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)("cashRegister", ["isOpen"])),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapMutations)('cashRegister', ['setCashRegisterStep2'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)('cashRegister', ['openCashRegister', 'closeCashRegister'])), {}, {
     openCreateCashRegisterModal: function openCreateCashRegisterModal() {
-      this.display = true;
+      this.openCashModalVisible = true;
     },
-    createCashRegisterModal: function createCashRegisterModal() {
+    createCashRegister: function createCashRegister() {
       this.closeModal();
-      this.setCashRegisterStep2();
+      this.openCashRegister({
+        initialAmount: this.initialAmount
+      });
     },
     closeModal: function closeModal() {
-      this.display = false;
+      this.openCashModalVisible = false;
+    },
+    openCloseCashRegisterModal: function openCloseCashRegisterModal() {
+      this.closeCashModalVisible = true;
+    },
+    _closeCashRegister: function _closeCashRegister() {
+      this.closeCashRegister({
+        finalAmount: this.finalAmount
+      });
+      this.closeCashModalVisible = false;
     }
-  })
+  }),
+  components: {
+    InputNumber: primevue_inputnumber__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
 });
 
 /***/ }),
@@ -23470,18 +23489,33 @@ var _hoisted_1 = {
   "class": "card"
 };
 var _hoisted_2 = {
-  "class": "card-header"
+  "class": "card-header d-flex align-items-center"
 };
-var _hoisted_3 = {
+
+var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-arrow-left mr-3"
+  }, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_4 = [_hoisted_3];
+var _hoisted_5 = {
   "class": "card-title"
 };
-var _hoisted_4 = {
+var _hoisted_6 = {
   "class": "card-body"
 };
 function render(_ctx, _cache) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.title), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link p-0",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return _ctx.setCashRegisterStep1 && _ctx.setCashRegisterStep1.apply(_ctx, arguments);
+    })
+  }, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.title), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -24139,40 +24173,63 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_17 = {
   "class": "row"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+var _hoisted_18 = {
   "class": "col-md-12"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+var _hoisted_19 = {
   "class": "form-group"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-  "for": "exampleInputEmail1"
-}, "Ingresa la cantidad a abrir caja"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-  type: "email",
-  "class": "form-control",
-  "aria-describedby": "emailHelp",
-  placeholder: "Monto Inicial ($)"
-})])])], -1
+};
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "initialAmount",
+  "class": "w-100"
+}, "Ingresa la cantidad a abrir caja", -1
+/* HOISTED */
+);
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Cerrar Caja", -1
+/* HOISTED */
+);
+
+var _hoisted_22 = {
+  "class": "row"
+};
+var _hoisted_23 = {
+  "class": "col-md-12"
+};
+var _hoisted_24 = {
+  "class": "form-group"
+};
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "finalAmount",
+  "class": "w-100"
+}, "Ingresa la cantidad a cerrar caja", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_InputNumber = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("InputNumber");
+
   var _component_AppButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppButton");
 
   var _component_AppDialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppDialog");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_ctx.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function () {
-      return $options.openCreateCashRegisterModal && $options.openCreateCashRegisterModal.apply($options, arguments);
+      return $options.openCloseCashRegisterModal && $options.openCloseCashRegisterModal.apply($options, arguments);
     }),
     type: "button",
-    "class": "btn btn-block btn-info btn-lg"
+    "class": "btn btn-block btn-warning text-white btn-lg"
   }, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function () {
-      return $options.openCreateCashRegisterModal && $options.openCreateCashRegisterModal.apply($options, arguments);
+      return _ctx.setCashRegisterStep2 && _ctx.setCashRegisterStep2.apply(_ctx, arguments);
     }),
     type: "button",
-    "class": "btn btn-block btn-info btn-lg"
+    "class": "btn btn-block btn-success btn-lg"
   }, _hoisted_9)]), _hoisted_10])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.openCreateCashRegisterModal && $options.openCreateCashRegisterModal.apply($options, arguments);
@@ -24180,9 +24237,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     "class": "btn btn-block btn-info btn-lg"
   }, _hoisted_14), _hoisted_15])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppDialog, {
-    visible: $data.display,
-    "onUpdate:visible": _cache[3] || (_cache[3] = function ($event) {
-      return $data.display = $event;
+    visible: $data.openCashModalVisible,
+    "onUpdate:visible": _cache[4] || (_cache[4] = function ($event) {
+      return $data.openCashModalVisible = $event;
     }),
     position: "top"
   }, {
@@ -24201,13 +24258,70 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "Yes",
         icon: "pi pi-check",
         iconPos: "right",
-        onClick: $options.createCashRegisterModal
+        onClick: $options.createCashRegister
       }, null, 8
       /* PROPS */
       , ["onClick"])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_17];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
+        id: "initialAmount",
+        modelValue: $data.initialAmount,
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          return $data.initialAmount = $event;
+        }),
+        mode: "currency",
+        currency: "USD",
+        locale: "en-US"
+      }, null, 8
+      /* PROPS */
+      , ["modelValue"])])])])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["visible"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppDialog, {
+    visible: $data.closeCashModalVisible,
+    "onUpdate:visible": _cache[6] || (_cache[6] = function ($event) {
+      return $data.closeCashModalVisible = $event;
+    }),
+    position: "top"
+  }, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_21];
+    }),
+    footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        label: "No",
+        onClick: $options.closeModal,
+        icon: "pi pi-times",
+        "class": "p-button-text"
+      }, null, 8
+      /* PROPS */
+      , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        label: "Yes",
+        icon: "pi pi-check",
+        iconPos: "right",
+        onClick: $options._closeCashRegister
+      }, null, 8
+      /* PROPS */
+      , ["onClick"])];
+    }),
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
+        id: "finalAmount",
+        modelValue: $data.finalAmount,
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+          return $data.finalAmount = $event;
+        }),
+        mode: "currency",
+        currency: "USD",
+        locale: "en-US"
+      }, null, 8
+      /* PROPS */
+      , ["modelValue"])])])])];
     }),
     _: 1
     /* STABLE */
@@ -24415,6 +24529,7 @@ var cashRegister = {
   state: function state() {
     return {
       products: [],
+      initialAmount: null,
       sells: [],
       isOpen: false,
       cash_register_step: _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].SummaryCashRegister
@@ -24445,9 +24560,21 @@ var cashRegister = {
     }
   },
   actions: {
-    generateSell: function generateSell(_ref5) {
-      var state = _ref5.state,
-          commit = _ref5.commit;
+    openCashRegister: function openCashRegister(_ref5, _ref6) {
+      var state = _ref5.state;
+      var initialAmount = _ref6.initialAmount;
+      state.cash_register_step = _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].CashRegister;
+      state.initialAmount = initialAmount;
+      state.isOpen = true;
+    },
+    closeCashRegister: function closeCashRegister(_ref7, _ref8) {
+      var state = _ref7.state;
+      var finalAmount = _ref8.finalAmount;
+      state.isOpen = false;
+    },
+    generateSell: function generateSell(_ref9) {
+      var state = _ref9.state,
+          commit = _ref9.commit;
     }
   },
   getters: {

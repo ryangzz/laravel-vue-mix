@@ -1,6 +1,9 @@
 <template>
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex align-items-center">
+      <button class="btn btn-link p-0" @click="setCashRegisterStep1">
+        <i class="fas fa-arrow-left mr-3"></i>
+      </button>
       <h3 class="card-title">{{ title }}</h3>
     </div>
     <div class="card-body">
@@ -16,7 +19,7 @@
 
 <script lang="js">
 import { defineComponent } from "vue";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 
 import SummaryCashRegister from './components/SummaryCashRegister.vue';
 import CashRegister        from './components/CashRegister.vue';
@@ -31,6 +34,7 @@ export default defineComponent({
     ...mapGetters('cashRegister', ['title']),
   },  
   methods:{
+    ...mapMutations('cashRegister', ['setCashRegisterStep1'])
   },
   components:{
     SummaryCashRegister,

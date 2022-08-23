@@ -68,10 +68,11 @@
                     ref="inputBarcode"
                     class="p-inputtext p-component w-100"
                     type="number"
+                    v-model="searchCodeInput"
                     placeholder="Busqueda por código"
                   />
                 </span>
-                <AppButton icon="pi pi-search" class="p-button-secondary"></AppButton>
+                <AppButton @click="submitSearchCode" icon="pi pi-search" class="p-button-secondary"></AppButton>
             </div>
             
             <Divider></Divider>
@@ -198,6 +199,41 @@
 
   <AppDialog
     :maximizable="true"
+    :draggable="false"
+    :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+    :style="{ width: '50vw' }"
+    v-model:visible="displayModalSearchProducts"
+  >
+    <template #header>
+      <h3>¡Varios Productos fueron encontrados con ese codigo!</h3>
+    </template>
+
+    <div class="w-100">
+      <Listbox
+        :options="products"
+        :filter="true"
+        option-label="name"
+        class="w-100"
+        list-style="max-height:250px"
+        filter-placeholder="Buscar"
+      >
+        <template #option="slotProps">
+          <div class="d-flex justify-content-between">
+            <p>{{ slotProps.option.name }} - $ {{ slotProps.option.price }}</p>
+            <AppButton
+              @click="addCart(slotProps.option)"
+              icon="pi pi-shopping-cart"
+              class="p-button-rounded p-button-success p-button-outlined"
+            />
+          </div>
+        </template>
+      </Listbox>
+    </div>
+  </AppDialog>
+
+  <AppDialog
+    :maximizable="true"
+    :draggable="false"
     :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
     :style="{ width: '50vw' }"
     v-model:visible="displayModalProductsCategory"
@@ -269,6 +305,7 @@ export default defineComponent({
     return {
       searchTextFavorites: "",
       titleCategoryModal: "",
+      searchCodeInput : "",
       visibleRight: false,
       categories: [
         {
@@ -297,6 +334,7 @@ export default defineComponent({
         },
       ],
       displayModalProductsCategory: false,
+      displayModalSearchProducts: false,
       products: [
         {
           id: "1000",
@@ -490,6 +528,9 @@ export default defineComponent({
   },
 
   methods: {
+    submitSearchCode(){      
+      this.openSearchedProductModal()
+    },
     addCart(product) {
       this.$store.commit('cashRegister/getProducts');
       const toast = this.$refs.toast;
@@ -514,6 +555,9 @@ export default defineComponent({
           return "p-button-outlined p-button-secondary";
       }
       return "p-button-success";
+    },
+    openSearchedProductModal(){
+      this.displayModalSearchProducts = true;
     },
     openCategoryModal(category) {
       this.displayModalProductsCategory = true;

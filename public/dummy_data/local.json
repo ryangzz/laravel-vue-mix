@@ -1,0 +1,38 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Audifonos Sony",
+            "description": "Audifonos Sony",            
+            "price": 65.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Lampara Led",
+            "description": "Lampara Led",            
+            "price": 45.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Masajeador",
+            "description": "Masajeador",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        }                
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-plug",
+            "label": "Electronicos"
+        }        
+    ]
+}

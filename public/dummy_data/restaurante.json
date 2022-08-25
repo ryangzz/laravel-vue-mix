@@ -1,0 +1,103 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Hamburguesa doble",
+            "description": "Hamburguesa doble",            
+            "price": 65.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Tacos de trompo",
+            "description": "Tacos de trompo",            
+            "price": 45.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Papa asada",
+            "description": "Papa asada",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "0004",
+            "code": "0004",
+            "name": "Refresco 600ml",
+            "description": "Refresco 600ml",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "0005",
+            "code": "0005",
+            "name": "Agua 500ml",
+            "description": "Agua 500ml",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0007",
+            "code": "0007",
+            "name": "Cerveza 150ml",
+            "description": "Cerveza 150ml",            
+            "price": 22.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0006",
+            "code": "0006",
+            "name": "Rebanada de pastel",
+            "description": "Rebanada de pastel",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0009",
+            "code": "0009",
+            "name": "Pastel chocolate con M&M",
+            "description": "Pastel chocolate con M&M",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0010",
+            "code": "0010",
+            "name": "Pay de limon",
+            "description": "Pay de limon",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        }
+        
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-hamburger",
+            "label": "Comida"
+        },
+        {            
+            "id": 2,
+            "icon": "fas fa-glass-whiskey",
+            "label": "Bebidas"
+        },
+        {            
+            "id": 3,
+            "icon": "fas fa-birthday-cake",
+            "label": "Postres"
+        }                                                
+    ]
+}

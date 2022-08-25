@@ -1,0 +1,70 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Cerveza Six TKT",
+            "description": "Cerveza Six TKT",            
+            "price": 23.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Cerveza Modelo",
+            "description": "Cerveza Modelo",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Caribe",
+            "description": "Caribe",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "0004",
+            "code": "0004",
+            "name": "Bolsa Cacahuates (200gr)",
+            "description": "Bolsa Cacahuates (200gr)",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "0005",
+            "code": "0005",
+            "name": "Chips 50gr",
+            "description": "Chips 50gr",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0007",
+            "code": "0007",
+            "name": "Sabritones (150 gr)",
+            "description": "Sabritones (150 gr)",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        }       
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-beer",
+            "label": "Cervezas"
+        },
+        {           
+            "id": 2, 
+            "icon": "fas fa-pizza-slice",
+            "label": "Botanas"
+        }        
+    ]
+}

@@ -1,0 +1,102 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Cemento Gris 50Kg (Cemex)",
+            "description": "Cemento Gris 50Kg (Cemex)",            
+            "price": 23.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Cemento Blanco 50Kg (Cemex)",
+            "description": "Cemento Blanco 50Kg (Cemex)",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Cemento Crestuco 40Kg (Crest)",
+            "description": "Cemento Crestuci 40Kg (Crest)",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "0004",
+            "code": "0004",
+            "name": "Varilla 3/8 9 mts (DeAcero)",
+            "description": "Varilla 3/8 9 mts (DeAcero)",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "0005",
+            "code": "0005",
+            "name": "Varilla 1/2' 12 mts (DeAcero) ",
+            "description": "Varilla 1/2' 12 mts (DeAcero) ",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0007",
+            "code": "0007",
+            "name": "Armex electrosoldado (9 mts)",
+            "description": "Armex electrosoldado (9 mts)",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0006",
+            "code": "0006",
+            "name": "Martillo",
+            "description": "Martillo",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0009",
+            "code": "0009",
+            "name": "Clavos concreto 1/2'",
+            "description": "Clavos concreto 1/2'",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0010",
+            "code": "0010",
+            "name": "Llave inglesa",
+            "description": "Llave inglesa",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        }
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-suitcase",
+            "label": "Cemento"
+        },
+        {           
+            "id": 2, 
+            "icon": "fas fa-landmark",
+            "label": "Aceros"
+        },
+        {          
+            "id": 3,  
+            "icon": "fas fa-tools",
+            "label": "Ferreteria"
+        }
+    ]
+}

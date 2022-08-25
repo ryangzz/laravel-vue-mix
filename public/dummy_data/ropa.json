@@ -1,0 +1,103 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Playera Polo",
+            "description": "Playera Polo",            
+            "price": 23.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Basica Cuello V",
+            "description": "Basica Cuello V",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Playera cuello redondo",
+            "description": "Playera cuello redondo",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "0004",
+            "code": "0004",
+            "name": "Jean Ultra Skinny Negro",
+            "description": "Jean Ultra Skinny Negro",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "0005",
+            "code": "0005",
+            "name": "Jean Recto Stone",
+            "description": "Jean Recto Stone",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0007",
+            "code": "0007",
+            "name": "Jogger amarillo",
+            "description": "Jogger amarillo",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0006",
+            "code": "0006",
+            "name": "Gorra NY",
+            "description": "Gorra NY",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0009",
+            "code": "0009",
+            "name": "Gorra Licencia Eminem",
+            "description": "Gorra Licencia Eminem",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0010",
+            "code": "0010",
+            "name": "Gorra basica sol",
+            "description": "Gorra basica sol",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        }
+        
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-tshirt",
+            "label": "Playeras"
+        },
+        {            
+            "id": 2,
+            "icon": "fas fa-tshirt",
+            "label": "Pantalones"
+        },
+        {            
+            "id": 3,
+            "icon": "fab fa-redhat",
+            "label": "Gorras"
+        }                                                
+    ]
+}

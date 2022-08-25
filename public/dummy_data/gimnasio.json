@@ -1,0 +1,70 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Suscripcion día",
+            "description": "Suscripcion día",            
+            "price": 40,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Suscripcion Mensual",
+            "description": "Suscripcion Mensual",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Suscripcion Trimestral",
+            "description": "Suscripcion Trimestral",            
+            "price": 350,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "0004",
+            "code": "0004",
+            "name": "Licuado de proteina",
+            "description": "Licuado de proteina",            
+            "price": 39,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "0005",
+            "code": "0005",
+            "name": "Barra de proteina (50 gr)",
+            "description": "Barra de proteina (50 gr)",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0007",
+            "code": "0007",
+            "name": "Suplemento alimenticio bebida Lean Shake",
+            "description": "Suplemento alimenticio bebida Lean Shake",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        }                
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "far fa-calendar-check",
+            "label": "Suscripcion"
+        },
+        {            
+            "id": 2,
+            "icon": "fas fa-drumstick-bite",
+            "label": "Consumibles"
+        }        
+    ]
+}

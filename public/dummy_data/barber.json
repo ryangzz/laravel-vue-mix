@@ -1,0 +1,39 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Corte 1",
+            "description": "Corte 1",            
+            "price": 23.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Corte 2",
+            "description": "Corte 2",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Corte 3",
+            "description": "Corte 3",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        }
+        
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-cut",
+            "label": "Cortes"
+        }                
+    ]
+}

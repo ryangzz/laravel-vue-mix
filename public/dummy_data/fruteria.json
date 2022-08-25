@@ -1,0 +1,102 @@
+{
+    "products":[
+        {
+            "id": "1000",
+            "code": "0001",
+            "name": "Uvas (Kg)",
+            "description": "Uvas (Kg)",            
+            "price": 23.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "1001",
+            "code": "0002",
+            "name": "Platano (Kg)",
+            "description": "Platano (Kg)",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "1003",
+            "code": "0003",
+            "name": "Naranjas (Kg)",
+            "description": "Narnjas (Kg)",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "4000",
+            "code": "0004",
+            "name": "Zanahorias (Kg)",
+            "description": "Zanahorias (Kg)",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "5000",
+            "code": "0005",
+            "name": "Cilantro (Manojo)",
+            "description": "Cilantro (Manojo)",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "7000",
+            "code": "0007",
+            "name": "Aguacate (Kg)",
+            "description": "Aguacate (Kg)",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0006",
+            "code": "0006",
+            "name": "Semillas",
+            "description": "Semillas",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0009",
+            "code": "0009",
+            "name": "Refresco",
+            "description": "Refresco",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0010",
+            "code": "0010",
+            "name": "Dulces varios (100 gr)",
+            "description": "Dulces varios (100 gr)",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        }
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-apple-alt",
+            "label": "Frutas"
+        },
+        {           
+            "id": 2, 
+            "icon": "fas fa-carrot",
+            "label": "Verduras"
+        },
+        {          
+            "id": 3,  
+            "icon": "fas fa-bookmark",
+            "label": "Otros"
+        }
+    ]
+}

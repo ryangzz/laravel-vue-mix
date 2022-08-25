@@ -1,0 +1,103 @@
+{
+    "products":[
+        {
+            "id": "0001",
+            "code": "0001",
+            "name": "Otros 1.1",
+            "description": "Otros 1.1",            
+            "price": 23.50,
+            "category_id": 1,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0002",
+            "code": "0002",
+            "name": "Otros 1.2",
+            "description": "Otros 1.2",            
+            "price": 17.0,
+            "category_id": 1,
+            "is_favorite": true                                                                    
+        },
+        {
+            "id": "0003",
+            "code": "0003",
+            "name": "Otros 1.3",
+            "description": "Otros 1.3",            
+            "price": 12.50,
+            "category_id": 1,
+            "is_favorite": false                                                                       
+        },
+        {
+            "id": "0004",
+            "code": "0004",
+            "name": "Otros 2.1",
+            "description": "Otros 2.1",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                                                                 
+        },
+        {
+            "id": "0005",
+            "code": "0005",
+            "name": "Otros 2.2",
+            "description": "Otros 2.2",            
+            "price": 19.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0007",
+            "code": "0007",
+            "name": "Otros 2.3",
+            "description": "Otros 2.3",            
+            "price": 9.50,
+            "category_id": 2,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0006",
+            "code": "0006",
+            "name": "Otros 3.1",
+            "description": "Otros 3.1",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": false                                   
+        },
+        {
+            "id": "0009",
+            "code": "0009",
+            "name": "Otros 3.2",
+            "description": "Otros 3.2",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        },
+        {
+            "id": "0010",
+            "code": "0010",
+            "name": "Otros 3.3",
+            "description": "Otros 3.3",            
+            "price": 9.50,
+            "category_id": 3,
+            "is_favorite": true                                   
+        }
+        
+    ],
+    "categories": [
+        {            
+            "id": 1,
+            "icon": "fas fa-atom",
+            "label": "Otros 1"
+        },
+        {            
+            "id": 2,
+            "icon": "fas fa-atom",
+            "label": "Otros 2"
+        },
+        {            
+            "id": 3,
+            "icon": "fas fa-atom",
+            "label": "Otros 3"
+        }                                                
+    ]
+}

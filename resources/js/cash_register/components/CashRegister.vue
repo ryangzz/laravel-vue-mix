@@ -77,7 +77,7 @@
             </div>
             
             <Divider></Divider>
-            <div class="d-flex justify-content-between my-2">
+            <div class="d-flex flex-sm-row flex-column justify-content-between my-2">
               <h4>Favoritos</h4>
               <span class="p-input-icon-right">
                 <i class="pi pi-search"></i>

@@ -23645,7 +23645,7 @@ var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_27 = {
-  "class": "d-flex justify-content-between my-2"
+  "class": "d-flex flex-sm-row flex-column justify-content-between my-2"
 };
 
 var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Favoritos", -1

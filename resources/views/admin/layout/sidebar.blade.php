@@ -73,26 +73,25 @@
               </p>
             </a>
           </li> 
-
-          <li class="nav-item">
-            <form method="post" class="" action="{{ route('logout') }}">
-              @csrf
-              <button class="text-left btn btn-link fixed-bottom px-2 nav-link pl-4" href="javascript:this.parentNode.submit()">
-                
-                <i class="fas fa-sign-out-alt"></i>
-                <p>
-                  Cerrar Sesión
-                </p>
-              </button>
-            </form>
-          </li> 
-          
+                    
           
           
         </ul>
         
       </nav>
       <!-- /.sidebar-menu -->
+      <div class="fixed-bottom position-absolute">
+        <form class="d-flex justify-content-start" method="post" class="" action="{{ route('logout') }}">
+          @csrf
+          <button class="text-left btn btn-link text-white px-2 nav-link pl-4" href="javascript:this.parentNode.submit()">
+            
+            <i class="fas fa-sign-out-alt"></i>
+            <span>
+              Cerrar Sesión
+            </span>
+          </button>
+        </form>
+      </div>
     </div>
     <!-- /.sidebar -->
 </aside>

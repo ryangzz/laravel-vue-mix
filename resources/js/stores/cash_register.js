@@ -6,6 +6,7 @@ const cashRegister = {
     state: () => ({
         businessLine: 1,
         products: [],
+        cartItems: [],
         categories: [],
         initialAmount: null,
         sells: [],
@@ -17,13 +18,17 @@ const cashRegister = {
             state.businessLine = businessLine;
         },
         addProduct(state, product){
-
+            state.cartItems.push({...product, quantity: 1});
         },
         removeProduct(state, productId){
-
-        },
-        addProductQuantity(state, {productId, addition}){
             
+        },
+        updateProductQuantity(state, {productId, quantity}){
+            const item = state.cartItems.find(item => {
+                return item.id == productId
+            });
+
+            item.quantity = quantity;
         },
         setCashAmount(state, {amount}){
 
@@ -45,6 +50,37 @@ const cashRegister = {
             state.cash_register_step = cash_register_steps.CashRegister;            
             state.initialAmount = initialAmount;
             state.isOpen = true;
+        },
+        addProduct({state, commit}, {product,}){            
+            const item = state.cartItems.find(item => {
+                return item.id == product.id
+            });
+            
+            if(item == null){
+                commit('addProduct', product)                
+            }else{
+                commit('updateProductQuantity', { productId: product.id, quantity: item.quantity + 1 })
+            }
+        },
+        updateProductQuantity({state, commit}, {product, quantity}){
+            commit('updateProductQuantity', { productId: product.id, quantity: quantity })            
+        },
+        deleteProduct({state, commit}, { productId}){
+            const itemIndex = state.cartItems.findIndex(item => {
+                return item.id == productId
+            });
+            
+            state.cartItems.splice(itemIndex, 1);
+        },
+        deleteAllProducts({state}){
+            state.cartItems = [];
+        },
+        searchByCode({state, dispatch}, {code}){
+            const product = state.products.find(p => Number(p.code) == Number(code));
+
+            if(product){
+                dispatch('addProduct', { product })
+            }
         },
         closeCashRegister({state}, {finalAmount}){            
             state.isOpen = false;
@@ -95,8 +131,10 @@ const cashRegister = {
 
     },
     getters: {
-        total(){
-
+        total({cartItems}){
+            return parseFloat(cartItems.reduce((previousValue, currentValue) =>{                
+                return previousValue + Number(currentValue.price) * Number(currentValue.quantity);
+            }, 0)).toFixed(2)       
         },
         amountToEstablish(){
 

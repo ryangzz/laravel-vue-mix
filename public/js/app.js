@@ -23044,9 +23044,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _components_SummaryCashRegister_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SummaryCashRegister.vue */ "./resources/js/cash_register/components/SummaryCashRegister.vue");
 /* harmony import */ var _components_CashRegister_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/CashRegister.vue */ "./resources/js/cash_register/components/CashRegister.vue");
+/* harmony import */ var _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/cash_register_steps */ "./resources/js/constants/cash_register_steps.js");
+/* harmony import */ var primevue_dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/dropdown */ "./node_modules/primevue/dropdown/dropdown.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23057,15 +23059,61 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
-  data: function data() {
-    return {};
+  mounted: function mounted() {
+    this.switchBusinessLine({
+      businessLine: this.businessLine
+    });
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)('cashRegister', ['cash_register_step', 'isOpen'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)('cashRegister', ['title'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapMutations)('cashRegister', ['setCashRegisterStep1'])),
+  data: function data() {
+    return {
+      cash_register_steps: _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_3__["default"],
+      businessLine: 1,
+      businessLines: [{
+        id: 1,
+        name: "Fruterias"
+      }, {
+        id: 2,
+        name: "Barber"
+      }, {
+        id: 3,
+        name: "Ferreterias"
+      }, {
+        id: 4,
+        name: "Six"
+      }, {
+        id: 5,
+        name: "Ropa"
+      }, {
+        id: 7,
+        name: "Gimansios"
+      }, {
+        id: 8,
+        name: "Restaurantes"
+      }, {
+        id: 9,
+        name: "Locales (Tipo islas)"
+      }, {
+        id: 10,
+        name: "Otros"
+      }]
+    };
+  },
+  watch: {
+    businessLine: function businessLine() {
+      this.switchBusinessLine({
+        businessLine: this.businessLine
+      });
+    }
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)('cashRegister', ['cash_register_step', 'isOpen'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)('cashRegister', ['title'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapMutations)('cashRegister', ['setCashRegisterStep1'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)('cashRegister', ['switchBusinessLine'])),
   components: {
     SummaryCashRegister: _components_SummaryCashRegister_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    CashRegister: _components_CashRegister_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    CashRegister: _components_CashRegister_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Dropdown: primevue_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 }));
 
@@ -23097,6 +23145,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primevue_tooltip__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! primevue/tooltip */ "./node_modules/primevue/tooltip/tooltip.esm.js");
 /* harmony import */ var primevue_fieldset__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! primevue/fieldset */ "./node_modules/primevue/fieldset/fieldset.esm.js");
 /* harmony import */ var primevue_inputnumber__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! primevue/inputnumber */ "./node_modules/primevue/inputnumber/inputnumber.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -23119,138 +23175,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       searchTextFavorites: "",
       titleCategoryModal: "",
+      searchCodeInput: "",
+      categorySelected: null,
       visibleRight: false,
-      categories: [{
-        icon: "fas fa-hamburger",
-        label: "Hamburgesas"
-      }, {
-        icon: "fas fa-apple-alt",
-        label: "Fruta"
-      }, {
-        icon: "fas fa-drumstick-bite",
-        label: "Pollo"
-      }, {
-        icon: "fas fa-pizza-slice",
-        label: "Pizza"
-      }, {
-        icon: "fas fa-birthday-cake",
-        label: "Postres"
-      }, {
-        icon: "fas fa-bread-slice",
-        label: "Pan"
-      }],
       displayModalProductsCategory: false,
-      products: [{
-        id: "1000",
-        code: "f230fh0g3",
-        name: "Bamboo Watch",
-        description: "Product Description",
-        image: "bamboo-watch.jpg",
-        price: 65,
-        category: "Accessories",
-        quantity: 24,
-        inventoryStatus: "INSTOCK",
-        rating: 5
-      }, {
-        id: "1001",
-        code: "nvklal433",
-        name: "Black Watch",
-        description: "Product Description",
-        image: "black-watch.jpg",
-        price: 72,
-        category: "Accessories",
-        quantity: 61,
-        inventoryStatus: "INSTOCK",
-        rating: 4
-      }, {
-        id: "1002",
-        code: "zz21cz3c1",
-        name: "Blue Band",
-        description: "Product Description",
-        image: "blue-band.jpg",
-        price: 79,
-        category: "Fitness",
-        quantity: 2,
-        inventoryStatus: "LOWSTOCK",
-        rating: 3
-      }, {
-        id: "1003",
-        code: "244wgerg2",
-        name: "Blue T-Shirt",
-        description: "Product Description",
-        image: "blue-t-shirt.jpg",
-        price: 29,
-        category: "Clothing",
-        quantity: 25,
-        inventoryStatus: "INSTOCK",
-        rating: 5
-      }, {
-        id: "1004",
-        code: "h456wer53",
-        name: "Bracelet",
-        description: "Product Description",
-        image: "bracelet.jpg",
-        price: 15,
-        category: "Accessories",
-        quantity: 73,
-        inventoryStatus: "INSTOCK",
-        rating: 4
-      }, {
-        id: "1005",
-        code: "av2231fwg",
-        name: "Brown Purse",
-        description: "Product Description",
-        image: "brown-purse.jpg",
-        price: 120,
-        category: "Accessories",
-        quantity: 0,
-        inventoryStatus: "OUTOFSTOCK",
-        rating: 4
-      }, {
-        id: "1006",
-        code: "bib36pfvm",
-        name: "Chakra Bracelet",
-        description: "Product Description",
-        image: "chakra-bracelet.jpg",
-        price: 32,
-        category: "Accessories",
-        quantity: 5,
-        inventoryStatus: "LOWSTOCK",
-        rating: 3
-      }, {
-        id: "1007",
-        code: "mbvjkgip5",
-        name: "Galaxy Earrings",
-        description: "Product Description",
-        image: "galaxy-earrings.jpg",
-        price: 34,
-        category: "Accessories",
-        quantity: 23,
-        inventoryStatus: "INSTOCK",
-        rating: 5
-      }, {
-        id: "1008",
-        code: "vbb124btr",
-        name: "Game Controller",
-        description: "Product Description",
-        image: "game-controller.jpg",
-        price: 99,
-        category: "Electronics",
-        quantity: 2,
-        inventoryStatus: "LOWSTOCK",
-        rating: 4
-      }, {
-        id: "1009",
-        code: "cm230f032",
-        name: "Gaming Set",
-        description: "Product Description",
-        image: "gaming-set.jpg",
-        price: 299,
-        category: "Electronics",
-        quantity: 63,
-        inventoryStatus: "INSTOCK",
-        rating: 3
-      }],
+      displayModalSearchProducts: false,
       responsiveOptions: [{
         breakpoint: "1024px",
         numVisible: 3,
@@ -23269,12 +23198,7 @@ __webpack_require__.r(__webpack_exports__);
         label: "Pagar",
         icon: "pi pi-money-bill",
         command: function command() {
-          var toast = _this.$refs.toast;
-          toast.add({
-            severity: "error",
-            summary: "Delete",
-            detail: "Data Deleted"
-          });
+          _this.makePayment();
         }
       }, {
         label: "Borrar productos",
@@ -23284,8 +23208,10 @@ __webpack_require__.r(__webpack_exports__);
           toast.add({
             severity: "error",
             summary: "Delete",
-            detail: "Data Deleted"
+            detail: "Productos eliminados"
           });
+
+          _this.deleteAllProducts();
         }
       }, {
         label: "Capturar código",
@@ -23299,23 +23225,59 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
-  computed: {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_15__.mapGetters)('cashRegister', ['total'])), (0,vuex__WEBPACK_IMPORTED_MODULE_15__.mapState)('cashRegister', ['products', 'categories', 'cartItems'])), {}, {
     productsFiltered: function productsFiltered() {
       var _this2 = this;
 
+      var favoriteProducts = this.products.filter(function (p) {
+        return p.is_favorite;
+      });
+
       if (this.searchTextFavorites == "") {
-        return this.products;
+        return favoriteProducts;
       }
 
-      return this.products.filter(function (p) {
+      return favoriteProducts.filter(function (p) {
         return p.name.toLocaleLowerCase().includes(_this2.searchTextFavorites.toLocaleLowerCase());
       });
+    },
+    productsCategorySelected: function productsCategorySelected() {
+      var _this3 = this;
+
+      return this.products.filter(function (p) {
+        return p.category_id == _this3.categorySelected.id;
+      });
     }
-  },
-  methods: {
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_15__.mapActions)('cashRegister', ['addProduct', 'searchByCode', 'deleteAllProducts', 'updateProductQuantity', 'deleteProduct'])), {}, {
+    subQuantity: function subQuantity(item) {
+      this.updateProductQuantity({
+        product: item,
+        quantity: item.quantity - 1
+      });
+    },
+    addQuantity: function addQuantity(item) {
+      this.updateProductQuantity({
+        product: item,
+        quantity: item.quantity + 1
+      });
+    },
+    submitSearchCode: function submitSearchCode() {
+      this.searchByCode({
+        code: this.searchCodeInput
+      });
+      this.searchCodeInput = null;
+      this.$refs.toast.add({
+        severity: "success",
+        summary: "Producto encontrado y añadido",
+        life: 1000
+      }); //this.openSearchedProductModal()
+    },
     addCart: function addCart(product) {
-      this.$store.commit('cashRegister/getProducts');
       var toast = this.$refs.toast;
+      this.addProduct({
+        product: product
+      });
       toast.add({
         severity: "success",
         summary: "Producto añadido",
@@ -23339,14 +23301,18 @@ __webpack_require__.r(__webpack_exports__);
 
       return "p-button-success";
     },
+    openSearchedProductModal: function openSearchedProductModal() {
+      this.displayModalSearchProducts = true;
+    },
     openCategoryModal: function openCategoryModal(category) {
+      this.categorySelected = category;
       this.displayModalProductsCategory = true;
       this.titleCategoryModal = category.label;
     },
     makePayment: function makePayment() {
       this.visibleRight = true;
     }
-  },
+  }),
   directives: {
     'tooltip': primevue_tooltip__WEBPACK_IMPORTED_MODULE_12__["default"]
   },
@@ -23502,20 +23468,38 @@ var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
 
 var _hoisted_4 = [_hoisted_3];
 var _hoisted_5 = {
-  "class": "card-title"
+  key: 1,
+  "class": "fas fa-home mr-3 text-primary"
 };
 var _hoisted_6 = {
+  "class": "card-title mr-3"
+};
+var _hoisted_7 = {
   "class": "card-body"
 };
 function render(_ctx, _cache) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  var _component_Dropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Dropdown");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_ctx.cash_register_steps.CashRegister == _ctx.cash_register_step ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     "class": "btn btn-link p-0",
     onClick: _cache[0] || (_cache[0] = function () {
       return _ctx.setCashRegisterStep1 && _ctx.setCashRegisterStep1.apply(_ctx, arguments);
     })
-  }, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.title), 1
+  }, _hoisted_4)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_5)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.title), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Dropdown, {
+    options: _ctx.businessLines,
+    modelValue: _ctx.businessLine,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return _ctx.businessLine = $event;
+    }),
+    "option-label": "name",
+    "option-value": "id",
+    placeholder: "Select a business line"
+  }, null, 8
+  /* PROPS */
+  , ["options", "modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23661,57 +23645,53 @@ var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_27 = {
-  ref: "inputBarcode",
-  "class": "p-inputtext p-component w-100",
-  type: "number",
-  placeholder: "Busqueda por código"
-};
-var _hoisted_28 = {
   "class": "d-flex justify-content-between my-2"
 };
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Favoritos", -1
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Favoritos", -1
 /* HOISTED */
 );
 
-var _hoisted_30 = {
+var _hoisted_29 = {
   "class": "p-input-icon-right"
 };
 
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "pi pi-search"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_32 = {
+var _hoisted_31 = {
   "class": "mb-1 font-weight-bold"
 };
-var _hoisted_33 = {
+var _hoisted_32 = {
   "class": "pr-4 d-flex justify-content-between align align-items-center"
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "d-flex justify-content-between my-2"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Categorias")], -1
 /* HOISTED */
 );
 
-var _hoisted_35 = {
+var _hoisted_34 = {
   "class": "container"
 };
-var _hoisted_36 = {
+var _hoisted_35 = {
   "class": "row"
 };
-var _hoisted_37 = {
+var _hoisted_36 = {
   "class": "col-md-4 h-100"
 };
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Total: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "$245.00")], -1
-/* HOISTED */
-);
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Total: ");
 
+var _hoisted_38 = {
+  key: 0
+};
 var _hoisted_39 = {
+  key: 1,
   "class": "product-scroll"
 };
 var _hoisted_40 = {
@@ -23764,13 +23744,23 @@ var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_52 = {
+var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "¡Varios Productos fueron encontrados con ese codigo!", -1
+/* HOISTED */
+);
+
+var _hoisted_53 = {
   "class": "w-100"
 };
-var _hoisted_53 = {
+var _hoisted_54 = {
   "class": "d-flex justify-content-between"
 };
-var _hoisted_54 = {
+var _hoisted_55 = {
+  "class": "w-100"
+};
+var _hoisted_56 = {
+  "class": "d-flex justify-content-between"
+};
+var _hoisted_57 = {
   "class": "circle-link"
 };
 function render(_ctx, _cache) {
@@ -23912,14 +23902,28 @@ function render(_ctx, _cache) {
   /* PROPS */
   , ["visible"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, null, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", _hoisted_27, null, 512
-      /* NEED_PATCH */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        ref: "inputBarcode",
+        "class": "p-inputtext p-component w-100",
+        type: "number",
+        onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+          return _ctx.submitSearchCode && _ctx.submitSearchCode.apply(_ctx, arguments);
+        }, ["enter"])),
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return _ctx.searchCodeInput = $event;
+        }),
+        placeholder: "Busqueda por código"
+      }, null, 544
+      /* HYDRATE_EVENTS, NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.searchCodeInput]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        onClick: _ctx.submitSearchCode,
         icon: "pi pi-search",
         "class": "p-button-secondary"
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+      }, null, 8
+      /* PROPS */
+      , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
         modelValue: _ctx.searchTextFavorites,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           return _ctx.searchTextFavorites = $event;
         }),
         "class": "p-inputtext-sm",
@@ -23933,9 +23937,9 @@ function render(_ctx, _cache) {
         "responsive-options": _ctx.responsiveOptions
       }, {
         item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.name), 1
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.name), 1
           /* TEXT */
-          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.price), 1
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.price), 1
           /* TEXT */
           ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
             onClick: function onClick($event) {
@@ -23952,7 +23956,7 @@ function render(_ctx, _cache) {
 
       }, 8
       /* PROPS */
-      , ["value", "responsive-options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.categories, function (category, idx) {
+      , ["value", "responsive-options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.categories, function (category, idx) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           "class": "col-sm-6 col-lg-4",
           key: category.label
@@ -23978,39 +23982,66 @@ function render(_ctx, _cache) {
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, {
     "class": "right-panel"
   }, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.products, function (item) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.total), 1
+      /* TEXT */
+      )]), _ctx.cartItems.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_38, "Sin productos")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cartItems, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           "class": "px-1",
           key: item.id
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.price) + "/u. ", 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price).toFixed(2)) + "/u. ", 1
         /* TEXT */
-        ), _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_45, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.price * 2), 1
+        ), _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_45, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price * item.quantity).toFixed(2)), 1
         /* TEXT */
         )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
           icon: "pi pi-plus",
-          "class": "p-button-info p-button-sm"
-        }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
-          "class": "p-inputtext-sm",
-          placeholder: "Cantidad"
-        }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+          "class": "p-button-info p-button-sm",
+          onClick: function onClick($event) {
+            return _ctx.addQuantity(item);
+          }
+        }, null, 8
+        /* PROPS */
+        , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
+          "class": "p-inputtext-sm text-center",
+          placeholder: "Cantidad",
+          min: "1",
+          modelValue: item.quantity,
+          "onUpdate:modelValue": function onUpdateModelValue($event) {
+            return item.quantity = $event;
+          }
+        }, null, 8
+        /* PROPS */
+        , ["modelValue", "onUpdate:modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+          onClick: function onClick($event) {
+            return _ctx.subQuantity(item);
+          },
+          disabled: item.quantity == 1,
           icon: "pi pi-minus",
           "class": "p-button-warning p-button-sm"
-        })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        }, null, 8
+        /* PROPS */
+        , ["onClick", "disabled"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+          onClick: function onClick($event) {
+            return _ctx.deleteProduct({
+              productId: item.id
+            });
+          },
           style: {
             "height": "5.5vh"
           },
           icon: "pi pi-trash",
           "class": "p-button-sm p-button-danger"
-        })])]), _hoisted_49]);
+        }, null, 8
+        /* PROPS */
+        , ["onClick"])])]), _hoisted_49]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+      ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
         onClick: _ctx.makePayment,
         "class": "p-button-rounded w-100 p-button-success mt-4 d-flex justify-content-center"
       }, {
@@ -24029,6 +24060,59 @@ function render(_ctx, _cache) {
 
   })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppDialog, {
     maximizable: true,
+    draggable: false,
+    breakpoints: {
+      '960px': '75vw',
+      '640px': '90vw'
+    },
+    style: {
+      width: '50vw'
+    },
+    visible: _ctx.displayModalSearchProducts,
+    "onUpdate:visible": _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.displayModalSearchProducts = $event;
+    })
+  }, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_52];
+    }),
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
+        options: _ctx.products,
+        filter: true,
+        "option-label": "name",
+        "class": "w-100",
+        "list-style": "max-height:250px",
+        "filter-placeholder": "Buscar"
+      }, {
+        option: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
+          /* TEXT */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+            onClick: function onClick($event) {
+              return _ctx.addCart(slotProps.option);
+            },
+            icon: "pi pi-shopping-cart",
+            "class": "p-button-rounded p-button-success p-button-outlined"
+          }, null, 8
+          /* PROPS */
+          , ["onClick"])])];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["options"])])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["visible"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppDialog, {
+    maximizable: true,
+    draggable: false,
     breakpoints: {
       '960px': '75vw',
       '640px': '90vw'
@@ -24037,7 +24121,7 @@ function render(_ctx, _cache) {
       width: '50vw'
     },
     visible: _ctx.displayModalProductsCategory,
-    "onUpdate:visible": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:visible": _cache[5] || (_cache[5] = function ($event) {
       return _ctx.displayModalProductsCategory = $event;
     })
   }, {
@@ -24047,8 +24131,8 @@ function render(_ctx, _cache) {
       )];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
-        options: _ctx.products,
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
+        options: _ctx.productsCategorySelected,
         filter: true,
         "option-label": "name",
         "class": "w-100",
@@ -24056,7 +24140,7 @@ function render(_ctx, _cache) {
         "filter-placeholder": "Buscar"
       }, {
         option: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
           /* TEXT */
           ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
             onClick: function onClick($event) {
@@ -24085,7 +24169,7 @@ function render(_ctx, _cache) {
     position: "top-right"
   }, null, 512
   /* NEED_PATCH */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Speeddial, {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Speeddial, {
     model: _ctx.items,
     "tooltip-options": {
       position: 'left'
@@ -24523,12 +24607,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/cash_register_steps */ "./resources/js/constants/cash_register_steps.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var cashRegister = {
   namespaced: true,
   state: function state() {
     return {
+      businessLine: 1,
       products: [],
+      cartItems: [],
+      categories: [],
       initialAmount: null,
       sells: [],
       isOpen: false,
@@ -24536,21 +24637,33 @@ var cashRegister = {
     };
   },
   mutations: {
-    addProduct: function addProduct(state, product) {},
+    setBusinessLine: function setBusinessLine(state, _ref) {
+      var businessLine = _ref.businessLine;
+      state.businessLine = businessLine;
+    },
+    addProduct: function addProduct(state, product) {
+      state.cartItems.push(_objectSpread(_objectSpread({}, product), {}, {
+        quantity: 1
+      }));
+    },
     removeProduct: function removeProduct(state, productId) {},
-    addProductQuantity: function addProductQuantity(state, _ref) {
-      var productId = _ref.productId,
-          addition = _ref.addition;
+    updateProductQuantity: function updateProductQuantity(state, _ref2) {
+      var productId = _ref2.productId,
+          quantity = _ref2.quantity;
+      var item = state.cartItems.find(function (item) {
+        return item.id == productId;
+      });
+      item.quantity = quantity;
     },
-    setCashAmount: function setCashAmount(state, _ref2) {
-      var amount = _ref2.amount;
+    setCashAmount: function setCashAmount(state, _ref3) {
+      var amount = _ref3.amount;
     },
-    setCreditCardAmount: function setCreditCardAmount(state, _ref3) {
-      var amount = _ref3.amount,
-          folio = _ref3.folio;
+    setCreditCardAmount: function setCreditCardAmount(state, _ref4) {
+      var amount = _ref4.amount,
+          folio = _ref4.folio;
     },
-    setCashClientPayment: function setCashClientPayment(state, _ref4) {
-      var amount = _ref4.amount;
+    setCashClientPayment: function setCashClientPayment(state, _ref5) {
+      var amount = _ref5.amount;
     },
     setCashRegisterStep1: function setCashRegisterStep1(state) {
       state.cash_register_step = _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].SummaryCashRegister;
@@ -24560,25 +24673,160 @@ var cashRegister = {
     }
   },
   actions: {
-    openCashRegister: function openCashRegister(_ref5, _ref6) {
-      var state = _ref5.state;
-      var initialAmount = _ref6.initialAmount;
+    openCashRegister: function openCashRegister(_ref6, _ref7) {
+      var state = _ref6.state;
+      var initialAmount = _ref7.initialAmount;
       state.cash_register_step = _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].CashRegister;
       state.initialAmount = initialAmount;
       state.isOpen = true;
     },
-    closeCashRegister: function closeCashRegister(_ref7, _ref8) {
-      var state = _ref7.state;
-      var finalAmount = _ref8.finalAmount;
+    addProduct: function addProduct(_ref8, _ref9) {
+      var state = _ref8.state,
+          commit = _ref8.commit;
+      var product = _ref9.product;
+      var item = state.cartItems.find(function (item) {
+        return item.id == product.id;
+      });
+
+      if (item == null) {
+        commit('addProduct', product);
+      } else {
+        commit('updateProductQuantity', {
+          productId: product.id,
+          quantity: item.quantity + 1
+        });
+      }
+    },
+    updateProductQuantity: function updateProductQuantity(_ref10, _ref11) {
+      var state = _ref10.state,
+          commit = _ref10.commit;
+      var product = _ref11.product,
+          quantity = _ref11.quantity;
+      commit('updateProductQuantity', {
+        productId: product.id,
+        quantity: quantity
+      });
+    },
+    deleteProduct: function deleteProduct(_ref12, _ref13) {
+      var state = _ref12.state,
+          commit = _ref12.commit;
+      var productId = _ref13.productId;
+      var itemIndex = state.cartItems.findIndex(function (item) {
+        return item.id == productId;
+      });
+      state.cartItems.splice(itemIndex, 1);
+    },
+    deleteAllProducts: function deleteAllProducts(_ref14) {
+      var state = _ref14.state;
+      state.cartItems = [];
+    },
+    searchByCode: function searchByCode(_ref15, _ref16) {
+      var state = _ref15.state,
+          dispatch = _ref15.dispatch;
+      var code = _ref16.code;
+      var product = state.products.find(function (p) {
+        return Number(p.code) == Number(code);
+      });
+
+      if (product) {
+        dispatch('addProduct', {
+          product: product
+        });
+      }
+    },
+    closeCashRegister: function closeCashRegister(_ref17, _ref18) {
+      var state = _ref17.state;
+      var finalAmount = _ref18.finalAmount;
       state.isOpen = false;
     },
-    generateSell: function generateSell(_ref9) {
-      var state = _ref9.state,
-          commit = _ref9.commit;
+    generateSell: function generateSell(_ref19) {
+      var state = _ref19.state,
+          commit = _ref19.commit;
+    },
+    switchBusinessLine: function switchBusinessLine(_ref20, _ref21) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var state, commit, businessLine, file, _yield$yield$fetch$js, categories, products;
+
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                state = _ref20.state, commit = _ref20.commit;
+                businessLine = _ref21.businessLine;
+                file = '';
+                console.log(businessLine);
+                _context.t0 = businessLine;
+                _context.next = _context.t0 === 1 ? 7 : _context.t0 === 2 ? 9 : _context.t0 === 3 ? 11 : _context.t0 === 4 ? 13 : _context.t0 === 5 ? 15 : _context.t0 === 7 ? 17 : _context.t0 === 8 ? 19 : _context.t0 === 9 ? 21 : _context.t0 === 10 ? 23 : 23;
+                break;
+
+              case 7:
+                file = '/dummy_data/fruteria.json';
+                return _context.abrupt("break", 25);
+
+              case 9:
+                file = '/dummy_data/barber.json';
+                return _context.abrupt("break", 25);
+
+              case 11:
+                file = '/dummy_data/ferreteria.json';
+                return _context.abrupt("break", 25);
+
+              case 13:
+                file = '/dummy_data/six.json';
+                return _context.abrupt("break", 25);
+
+              case 15:
+                file = '/dummy_data/ropa.json';
+                return _context.abrupt("break", 25);
+
+              case 17:
+                file = '/dummy_data/gimnasio.json';
+                return _context.abrupt("break", 25);
+
+              case 19:
+                file = '/dummy_data/restaurante.json';
+                return _context.abrupt("break", 25);
+
+              case 21:
+                file = '/dummy_data/local.json';
+                return _context.abrupt("break", 25);
+
+              case 23:
+                file = '/dummy_data/otros.json';
+                return _context.abrupt("break", 25);
+
+              case 25:
+                _context.next = 27;
+                return fetch(file);
+
+              case 27:
+                _context.next = 29;
+                return _context.sent.json();
+
+              case 29:
+                _yield$yield$fetch$js = _context.sent;
+                categories = _yield$yield$fetch$js.categories;
+                products = _yield$yield$fetch$js.products;
+                state.products = products;
+                state.categories = categories;
+                state.businessLine = businessLine;
+
+              case 35:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   getters: {
-    total: function total() {},
+    total: function total(_ref22) {
+      var cartItems = _ref22.cartItems;
+      return parseFloat(cartItems.reduce(function (previousValue, currentValue) {
+        return previousValue + Number(currentValue.price) * Number(currentValue.quantity);
+      }, 0)).toFixed(2);
+    },
     amountToEstablish: function amountToEstablish() {},
     changeCashAmount: function changeCashAmount() {},
     title: function title(state) {
@@ -29759,7 +30007,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.circle-link {\r\n  position: fixed !important;\r\n  margin-right: 10px;\r\n  width: 30px !important;\r\n  height: 50px !important;\r\n  bottom: 50px !important;\r\n  right: 40px !important;\r\n  text-align: center;\r\n  z-index: 1020;\n}\n.product-item {\r\n  display: flex;\r\n  align-items: center;\r\n  padding: 0.5rem;\r\n  width: 100%;\n}\n.product-item img {\r\n  width: 75px;\r\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\r\n  margin-right: 1rem;\n}\n.product-item .product-list-detail {\r\n  flex: 1 1 0;\n}\n.product-item .product-list-action {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-end;\n}\n.product-item .product-category-icon {\r\n  vertical-align: middle;\r\n  margin-right: 0.5rem;\r\n  font-size: 0.875rem;\n}\n.product-item .product-category {\r\n  vertical-align: middle;\r\n  line-height: 1;\r\n  font-size: 0.875rem;\n}\n@media screen and (max-width: 576px) {\n.product-item {\r\n    flex-wrap: wrap;\n}\n.product-item .image-container {\r\n    width: 100%;\r\n    text-align: center;\n}\n.product-item img {\r\n    margin: 0 0 1rem 0;\r\n    width: 100px;\n}\n}\n.product-scroll{\r\n    height: 50vh;\r\n    overflow-y: scroll;\n}\n.product-scroll::-webkit-scrollbar-thumb {\r\n    background: #ccc;\r\n    scrollbar-width: thin;\r\n    border-radius: 8px;\n}\n.product-scroll::-webkit-scrollbar{\r\n  width: 8px;\n}\r\n\r\n/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */\n.product-scroll::-webkit-scrollbar-thumb:hover {\r\n    background: #b3b3b3;\r\n    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);\n}\r\n\r\n/* Cambiamos el fondo cuando esté en active */\n.product-scroll::-webkit-scrollbar-thumb:active {\r\n    background-color: #999999;\n}\n.right-panel>.p-card-body{\r\n  padding-bottom: 0px !important;\n}\n.p-sidebar-header{\r\n  padding-bottom: 0px !important;\n}\n.p-inputnumber-input{\r\n  width: 100%;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.circle-link {\r\n  position: fixed !important;\r\n  margin-right: 10px;\r\n  width: 30px !important;\r\n  height: 50px !important;\r\n  bottom: 50px !important;\r\n  right: 40px !important;\r\n  text-align: center;\r\n  z-index: 1020;\n}\n.product-item {\r\n  display: flex;\r\n  align-items: center;\r\n  padding: 0.5rem;\r\n  width: 100%;\n}\n.product-item img {\r\n  width: 75px;\r\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\r\n  margin-right: 1rem;\n}\n.product-item .product-list-detail {\r\n  flex: 1 1 0;\n}\n.product-item .product-list-action {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-end;\n}\n.product-item .product-category-icon {\r\n  vertical-align: middle;\r\n  margin-right: 0.5rem;\r\n  font-size: 0.875rem;\n}\n.product-item .product-category {\r\n  vertical-align: middle;\r\n  line-height: 1;\r\n  font-size: 0.875rem;\n}\n@media screen and (max-width: 576px) {\n.product-item {\r\n    flex-wrap: wrap;\n}\n.product-item .image-container {\r\n    width: 100%;\r\n    text-align: center;\n}\n.product-item img {\r\n    margin: 0 0 1rem 0;\r\n    width: 100px;\n}\n}\n.product-scroll{\r\n    height: 50vh;\r\n    overflow-y: scroll;\n}\n.product-scroll::-webkit-scrollbar-thumb {\r\n    background: #ccc;\r\n    scrollbar-width: thin;\r\n    border-radius: 8px;\n}\n.product-scroll::-webkit-scrollbar{\r\n  width: 8px;\n}\r\n\r\n/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */\n.product-scroll::-webkit-scrollbar-thumb:hover {\r\n    background: #b3b3b3;\r\n    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);\n}\r\n\r\n/* Cambiamos el fondo cuando esté en active */\n.product-scroll::-webkit-scrollbar-thumb:active {\r\n    background-color: #999999;\n}\n.right-panel>.p-card-body{\r\n  padding-bottom: 0px !important;\n}\n.p-sidebar-header{\r\n  padding-bottom: 0px !important;\n}\n.p-inputnumber-input{\r\n  width: 100%;\r\n  text-align: center !important;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

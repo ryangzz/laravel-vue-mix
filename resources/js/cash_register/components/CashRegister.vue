@@ -68,6 +68,7 @@
                     ref="inputBarcode"
                     class="p-inputtext p-component w-100"
                     type="number"
+                    @keyup.enter="submitSearchCode"
                     v-model="searchCodeInput"
                     placeholder="Busqueda por código"
                   />
@@ -144,9 +145,10 @@
       <div class="col-md-4 h-100">
         <Card class="right-panel">
           <template class="pedo" #content>
-            <h4>Total: <strong>$245.00</strong></h4>
-            <div class="product-scroll">
-              <div class="px-1" v-for="item of products" :key="item.id">
+            <h4>Total: <strong>${{total}}</strong></h4>
+            <p v-if="cartItems.length == 0">Sin productos</p>
+            <div v-else class="product-scroll">
+              <div class="px-1" v-for="item of cartItems" :key="item.id">
                 <div class="d-flex justify-content-between">
                   <h6 class="w-50">{{ item.name }}</h6>
                   <div
@@ -156,10 +158,10 @@
                       style="font-size: 2.8vh"
                       class="text-muted mb-0 font-weight-lighter"
                     >
-                      ${{ item.price }}/u.
+                      ${{ parseFloat(item.price).toFixed(2) }}/u.
                     </p>
                     <p class="mx-1 mb-0">-</p>
-                    <p class="font-weight-bold mb-0">${{ item.price * 2 }}</p>
+                    <p class="font-weight-bold mb-0">${{ parseFloat(item.price * item.quantity).toFixed(2) }}</p>
                   </div>
                 </div>
                 <div class="d-flex justify-content-between">
@@ -167,18 +169,24 @@
                     <AppButton
                       icon="pi pi-plus"
                       class="p-button-info p-button-sm"
+                      @click="addQuantity(item)"
                     ></AppButton>
-                    <AppInput
-                      class="p-inputtext-sm"
+                    <InputNumber
+                      class="p-inputtext-sm text-center"
                       placeholder="Cantidad"
-                    ></AppInput>
+                      min="1"
+                      v-model="item.quantity"
+                    ></InputNumber>
                     <AppButton
+                      @click="subQuantity(item)"
+                      :disabled="item.quantity == 1"
                       icon="pi pi-minus"
                       class="p-button-warning p-button-sm"
                     ></AppButton>
                   </div>
                   <div class="w-25 text-right">
                     <AppButton
+                      @click="deleteProduct({productId: item.id})"
                       style="height: 5.5vh"
                       icon="pi pi-trash"
                       class="p-button-sm p-button-danger"
@@ -244,7 +252,7 @@
 
     <div class="w-100">
       <Listbox
-        :options="products"
+        :options="productsCategorySelected"
         :filter="true"
         option-label="name"
         class="w-100"
@@ -282,7 +290,7 @@
 </template>
 
 <script lang="js">
-import { defineComponent } from "vue";
+import { defineComponent,  } from "vue";
 
 import Card from "primevue/card";
 import InputText from "primevue/inputtext";
@@ -298,7 +306,7 @@ import Sidebar from "primevue/sidebar";
 import Tooltip from "primevue/tooltip";
 import Fieldset from "primevue/fieldset";
 import InputNumber from "primevue/inputnumber";
-import { mapState } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 
 export default defineComponent({
@@ -307,6 +315,7 @@ export default defineComponent({
       searchTextFavorites: "",
       titleCategoryModal: "",
       searchCodeInput : "",
+      categorySelected: null,
       visibleRight: false,      
       displayModalProductsCategory: false,
       displayModalSearchProducts: false,      
@@ -332,13 +341,8 @@ export default defineComponent({
         {
           label: "Pagar",
           icon: "pi pi-money-bill",
-          command: () => {
-            const toast = this.$refs.toast;
-            toast.add({
-              severity: "error",
-              summary: "Delete",
-              detail: "Data Deleted",
-            });
+          command: () => {            
+            this.makePayment()
           },
         },
         {
@@ -349,8 +353,10 @@ export default defineComponent({
             toast.add({
               severity: "error",
               summary: "Delete",
-              detail: "Data Deleted",
+              detail: "Productos eliminados",
             });
+
+            this.deleteAllProducts();
           },
         },
         {
@@ -367,7 +373,8 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapState('cashRegister', ['products', 'categories']),
+    ...mapGetters('cashRegister', ['total']),
+    ...mapState('cashRegister', ['products', 'categories', 'cartItems']),
     productsFiltered(){
       const favoriteProducts = this.products.filter(p => p.is_favorite);
       if (this.searchTextFavorites == "") {
@@ -380,15 +387,36 @@ export default defineComponent({
           .includes(this.searchTextFavorites.toLocaleLowerCase());
       });
     },
+    productsCategorySelected(){
+      return this.products.filter(p => {
+        return p.category_id == this.categorySelected.id
+      })
+    }
   },
 
   methods: {
-    submitSearchCode(){      
-      this.openSearchedProductModal()
+    ...mapActions('cashRegister', ['addProduct', 'searchByCode', 'deleteAllProducts', 'updateProductQuantity', 'deleteProduct']),
+    subQuantity(item){
+      this.updateProductQuantity({product:item, quantity: item.quantity - 1})      
     },
-    addCart(product) {
-      this.$store.commit('cashRegister/getProducts');
+    addQuantity(item){
+      this.updateProductQuantity({product:item, quantity: item.quantity + 1})      
+    },
+    submitSearchCode(){   
+      this.searchByCode({code: this.searchCodeInput });      
+      this.searchCodeInput = null;
+      this.$refs.toast.add({
+        severity: "success",
+        summary: "Producto encontrado y añadido",
+        life: 1000,
+      });
+      //this.openSearchedProductModal()
+    },
+    addCart(product) {      
       const toast = this.$refs.toast;
+
+      this.addProduct({product});
+
 
       toast.add({
         severity: "success",
@@ -415,6 +443,7 @@ export default defineComponent({
       this.displayModalSearchProducts = true;
     },
     openCategoryModal(category) {
+      this.categorySelected = category;
       this.displayModalProductsCategory = true;
       this.titleCategoryModal = category.label;
     },
@@ -545,5 +574,7 @@ export default defineComponent({
 
 .p-inputnumber-input{
   width: 100%;
+  text-align: center !important;
 }
+
 </style>

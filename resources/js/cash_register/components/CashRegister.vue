@@ -88,31 +88,26 @@
                 ></AppInput>
               </span>
             </div>
-            <Carousel
-              :value="productsFiltered"
-              :num-visible="3"
-              :num-scroll="3"
-              :responsive-options="responsiveOptions"
-            >
-              <template #item="slotProps">
-                <h6 class="mb-1 font-weight-bold">{{ slotProps.data.name }}</h6>
-                <div
-                  class="
-                    pr-4
-                    d-flex
-                    justify-content-between
-                    align align-items-center
-                  "
-                >
-                  <p>${{ slotProps.data.price }}</p>
-                  <AppButton
-                    @click="addCart(slotProps.data)"
-                    icon="pi pi-shopping-cart"
-                    class="p-button-rounded p-button-success p-button-outlined"
-                  />
-                </div>
-              </template>
-            </Carousel>
+            <div style="max-height: 200px; overflow-y: scroll">
+              <table class="table table-sm">
+                <tbody>
+                  <tr v-for="product of productsFiltered" :key="product.id">
+                    <th scope="row" class="pt-2">
+                      {{ product.name }} - ${{ product.price }}
+                    </th>
+                    <td>
+                      <AppButton
+                        @click="addCart(product)"
+                        icon="pi pi-shopping-cart"
+                        class="
+                          p-button-rounded p-button-success p-button-outlined
+                        "
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <Divider></Divider>
             <div class="d-flex justify-content-between my-2">

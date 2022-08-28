@@ -4,86 +4,150 @@
     <div class="row">
       
       <div class="col-md-8">
-        <Sidebar v-model:visible="visibleRight" :base-z-index="10000" position="right">
-				  <h4 class="font-weight-normal">Por establecer: $240.00</h4>
-          
+        <Sidebar
+          v-model:visible="visibleRight"
+          :base-z-index="10000"
+          position="full"
+        >
+          <h4 class="font-weight-normal">Por establecer: $240.00</h4>
+
           <div class="mb-4">
             <h5>Efectivo <i class="fas fa-money-bill-wave"></i></h5>
             <div class="p-inputgroup">
-                <span class="p-inputgroup-addon">$</span>
-                <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
-                <AppButton class="p-button-help" v-tooltip.top="'Establecer restante'" icon="far fa-hand-lizard"></AppButton>
-                <AppButton v-tooltip="'Quitar todo'" icon="fas fa-hand-holding"></AppButton>
+              <span class="p-inputgroup-addon">$</span>
+              <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
+              <AppButton
+                class="p-button-help"
+                v-tooltip.top="'Establecer restante'"
+                icon="far fa-hand-lizard"
+              ></AppButton>
+              <AppButton
+                v-tooltip="'Quitar todo'"
+                icon="fas fa-hand-holding"
+              ></AppButton>
             </div>
           </div>
 
           <div class="mb-4">
             <h5>Tarjeta de credito <i class="far fa-credit-card"></i></h5>
-            <div class="p-inputgroup">                
-                <span class="p-inputgroup-addon">$</span>
-                <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>                
-                <AppButton class="p-button-help" v-tooltip.top="'Establecer restante'" icon="far fa-hand-lizard"></AppButton>
-                <AppButton v-tooltip="'Establecer todo'" icon="fas fa-hand-holding-usd"></AppButton>                
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">$</span>
+              <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
+              <AppButton
+                class="p-button-help"
+                v-tooltip.top="'Establecer restante'"
+                icon="far fa-hand-lizard"
+              ></AppButton>
+              <AppButton
+                v-tooltip="'Establecer todo'"
+                icon="fas fa-hand-holding-usd"
+              ></AppButton>
             </div>
             <div class="d-flex justify-content-between align-items-center">
               <h6 class="mb-0">Folio:</h6>
-              <AppInput style="height:30px" type="text" class="mt-1" placeholder="#ticket, folio, etc"></AppInput>
+              <AppInput
+                style="height: 30px"
+                type="text"
+                class="mt-1"
+                placeholder="# Ticket, folio, etc"
+              ></AppInput>
             </div>
-
           </div>
 
           <div class="mb-4">
             <Fieldset legend="Otros" :toggleable="true" :collapsed="true">
-
               <!-- <h5>Otro <i class="fas fa-pen"></i></h5> -->
-              <div class="p-inputgroup">                
-                  <span class="p-inputgroup-addon">$</span>
-                  <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
-                  <AppButton class="p-button-help" v-tooltip.top="'Establecer restante'" icon="far fa-hand-lizard"></AppButton>
-                  <AppButton v-tooltip="'Establecer todo'" icon="fas fa-hand-holding-usd"></AppButton>
+              <div class="p-inputgroup">
+                <span class="p-inputgroup-addon">$</span>
+                <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
+                <AppButton
+                  class="p-button-help"
+                  v-tooltip.top="'Establecer restante'"
+                  icon="far fa-hand-lizard"
+                ></AppButton>
+                <AppButton
+                  v-tooltip="'Establecer todo'"
+                  icon="fas fa-hand-holding-usd"
+                ></AppButton>
               </div>
-              <div class="d-flex justify-content-end align-items-center">                
-                <AppInput style="height:30px" type="text" class="mt-1" placeholder="Cheque, credito, cupon, etc."></AppInput>
+              <div class="d-flex justify-content-end align-items-center">
+                <AppInput
+                  style="height: 30px"
+                  type="text"
+                  class="mt-1"
+                  placeholder="Cheque, credito, cupon, etc."
+                ></AppInput>
               </div>
-              <hr>
+              <hr />
               <h5>Cambio <i class="fas fa-coins"></i></h5>
-              <div class="d-flex justify-content-between">                                
-                <InputNumber currency="USD" locale="en-US" class="p-inputtext-sm" style="width:40%" placeholder="Pagará con:"></InputNumber>                
-                <AppInput disabled class="p-inputtext-sm text-right" style="width:40%" placeholder="Cambio:"></AppInput>                
+              <div class="d-flex justify-content-between">
+                <InputNumber
+                  currency="USD"
+                  locale="en-US"
+                  class="p-inputtext-sm"
+                  style="width: 40%"
+                  placeholder="Pagará con:"
+                ></InputNumber>
+                <AppInput
+                  disabled
+                  class="p-inputtext-sm text-right"
+                  style="width: 40%"
+                  placeholder="Cambio:"
+                ></AppInput>
               </div>
             </Fieldset>
           </div>
 
-          <AppButton @click="makePayment" class="p-button-rounded w-100 p-button-success mt-4 d-flex justify-content-center">
-              Generar venta <i class="ml-2 pi pi-check "></i>  
-          </AppButton>            
-          
-	      </Sidebar>
+          <AppButton
+            @click="makePayment"
+            class="
+              p-button-rounded
+              w-100
+              p-button-success
+              mt-4
+              d-flex
+              justify-content-center
+            "
+          >
+            Generar venta <i class="ml-2 pi pi-check"></i>
+          </AppButton>
+        </Sidebar>
         <Card>
           <template #content>
             <div class="p-inputgroup">
-                <span class="p-input-icon-left w-100">
-                  <i class="fas fa-barcode"></i>
-                  <input
-                    ref="inputBarcode"
-                    class="p-inputtext p-component w-100"
-                    type="number"
-                    @keyup.enter="submitSearchCode"
-                    v-model="searchCodeInput"
-                    placeholder="Busqueda por código"
-                  />
-                </span>
-                <AppButton @click="submitSearchCode" icon="pi pi-search" class="p-button-secondary"></AppButton>
+              <span class="p-input-icon-left w-100">
+                <i class="fas fa-barcode"></i>
+                <input
+                  ref="inputBarcode"
+                  class="p-inputtext p-component w-100"
+                  type="number"
+                  @keyup.enter="submitSearchCode"
+                  v-model="searchCodeInput"
+                  placeholder="Busqueda por código"
+                />
+              </span>
+              <AppButton
+                @click="submitSearchCode"
+                icon="pi pi-search"
+                class="p-button-secondary"
+              ></AppButton>
             </div>
-            
+
             <Divider></Divider>
-            <div class="d-flex flex-sm-row flex-column justify-content-between my-2">
+            <div
+              class="
+                d-flex
+                flex-sm-row flex-column
+                justify-content-between
+                my-2
+              "
+            >
               <h4>Favoritos</h4>
               <span class="p-input-icon-right">
                 <i class="pi pi-search"></i>
                 <AppInput
                   v-model="searchTextFavorites"
-                  class="p-inputtext-sm"
+                  class="p-inputtext-sm w-100"
                   placeholder="Busqueda por favoritos"
                 ></AppInput>
               </span>
@@ -140,7 +204,9 @@
       <div class="col-md-4 h-100">
         <Card class="right-panel">
           <template class="pedo" #content>
-            <h4>Total: <strong>${{total}}</strong></h4>
+            <h4>
+              Total: <strong>${{ total }}</strong>
+            </h4>
             <p v-if="cartItems.length == 0">Sin productos</p>
             <div v-else class="product-scroll">
               <div class="px-1" v-for="item of cartItems" :key="item.id">
@@ -156,7 +222,9 @@
                       ${{ parseFloat(item.price).toFixed(2) }}/u.
                     </p>
                     <p class="mx-1 mb-0">-</p>
-                    <p class="font-weight-bold mb-0">${{ parseFloat(item.price * item.quantity).toFixed(2) }}</p>
+                    <p class="font-weight-bold mb-0">
+                      ${{ parseFloat(item.price * item.quantity).toFixed(2) }}
+                    </p>
                   </div>
                 </div>
                 <div class="d-flex justify-content-between">
@@ -191,9 +259,19 @@
                 <hr />
               </div>
             </div>
-            <AppButton @click="makePayment" class="p-button-rounded w-100 p-button-success mt-4 d-flex justify-content-center">
-              Pagar <i class="ml-2 pi pi-money-bill "></i>  
-            </AppButton>            
+            <AppButton
+              @click="makePayment"
+              class="
+                p-button-rounded
+                w-100
+                p-button-success
+                mt-4
+                d-flex
+                justify-content-center
+              "
+            >
+              Pagar <i class="ml-2 pi pi-money-bill"></i>
+            </AppButton>
           </template>
         </Card>
       </div>
@@ -268,20 +346,18 @@
     </div>
   </AppDialog>
 
-  <Toast ref="toast" position="top-right" />
+  <Toast ref="toast" :breakpoints="responsiveOptions" position="top-right" />
 
   <div class="circle-link">
     <Speeddial
       :model="items"
       :tooltip-options="{ position: 'left' }"
-      :radius="80"
+      :radius="100"
       direction="up-left"
       type="quarter-circle"
       button-class="p-button-success"
     ></Speeddial>
   </div>
-
-  
 </template>
 
 <script lang="js">
@@ -475,7 +551,7 @@ export default defineComponent({
   width: 30px !important;
   height: 50px !important;
   bottom: 50px !important;
-  right: 40px !important;
+  right: 70px !important;
   text-align: center;
   z-index: 1020;
 }
@@ -531,45 +607,42 @@ export default defineComponent({
   }
 }
 
-.product-scroll{
-    height: 50vh;
-    overflow-y: scroll;
-
+.product-scroll {
+  height: 50vh;
+  overflow-y: scroll;
 }
 
 .product-scroll::-webkit-scrollbar-thumb {
-    background: #ccc;
-    scrollbar-width: thin;
-    border-radius: 8px;    
-
+  background: #ccc;
+  scrollbar-width: thin;
+  border-radius: 8px;
 }
 
-.product-scroll::-webkit-scrollbar{
+.product-scroll::-webkit-scrollbar {
   width: 8px;
 }
 
 /* Cambiamos el fondo y agregamos una sombra cuando esté en hover */
 .product-scroll::-webkit-scrollbar-thumb:hover {
-    background: #b3b3b3;
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  background: #b3b3b3;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 
 /* Cambiamos el fondo cuando esté en active */
 .product-scroll::-webkit-scrollbar-thumb:active {
-    background-color: #999999;
+  background-color: #999999;
 }
 
-.right-panel>.p-card-body{
+.right-panel > .p-card-body {
   padding-bottom: 0px !important;
 }
 
-.p-sidebar-header{
+.p-sidebar-header {
   padding-bottom: 0px !important;
 }
 
-.p-inputnumber-input{
+.p-inputnumber-input {
   width: 100%;
   text-align: center !important;
 }
-
 </style>

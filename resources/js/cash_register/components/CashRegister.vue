@@ -1,8 +1,80 @@
 <template>
   <div class="container-fluid">
-    
     <div class="row">
-      
+      <Accordion class="w-100 fixed-top">
+        <AccordionTab>
+          <template #header>
+            <div>
+              <div>
+                Total: $<strong>{{ total }}</strong>
+              </div>
+            </div>
+          </template>
+          <p v-if="cartItems.length == 0">Sin productos</p>
+          <div v-else class="product-scroll">
+            <div class="px-1" v-for="item of cartItems" :key="item.id">
+              <div class="d-flex justify-content-between">
+                <h6 class="w-50">{{ item.name }}</h6>
+                <div class="w-50 d-flex align-items-center justify-content-end">
+                  <p
+                    style="font-size: 2.8vh"
+                    class="text-muted mb-0 font-weight-lighter"
+                  >
+                    ${{ parseFloat(item.price).toFixed(2) }}/u.
+                  </p>
+                  <p class="mx-1 mb-0">-</p>
+                  <p class="font-weight-bold mb-0">
+                    ${{ parseFloat(item.price * item.quantity).toFixed(2) }}
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="w-75 p-inputgroup" style="height: 5.5vh">
+                  <AppButton
+                    icon="pi pi-plus"
+                    class="p-button-info p-button-sm"
+                    @click="addQuantity(item)"
+                  ></AppButton>
+                  <InputNumber
+                    class="p-inputtext-sm text-center"
+                    placeholder="Cantidad"
+                    min="1"
+                    v-model="item.quantity"
+                  ></InputNumber>
+                  <AppButton
+                    @click="subQuantity(item)"
+                    :disabled="item.quantity == 1"
+                    icon="pi pi-minus"
+                    class="p-button-warning p-button-sm"
+                  ></AppButton>
+                </div>
+                <div class="w-25 text-right">
+                  <AppButton
+                    @click="deleteProduct({ productId: item.id })"
+                    style="height: 5.5vh"
+                    icon="pi pi-trash"
+                    class="p-button-sm p-button-danger"
+                  />
+                </div>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <AppButton
+            @click="makePayment"
+            class="
+              p-button-rounded
+              w-100
+              p-button-success
+              mt-4
+              d-flex
+              justify-content-center
+            "
+          >
+            Pagar <i class="ml-2 pi pi-money-bill"></i>
+          </AppButton>
+        </AccordionTab>
+      </Accordion>
       <div class="col-md-8">
         <Sidebar
           v-model:visible="visibleRight"
@@ -203,7 +275,7 @@
 
       <div class="col-md-4 h-100">
         <Card class="right-panel">
-          <template class="pedo" #content>
+          <template #content>
             <h4>
               Total: <strong>${{ total }}</strong>
             </h4>
@@ -249,7 +321,7 @@
                   </div>
                   <div class="w-25 text-right">
                     <AppButton
-                      @click="deleteProduct({productId: item.id})"
+                      @click="deleteProduct({ productId: item.id })"
                       style="height: 5.5vh"
                       icon="pi pi-trash"
                       class="p-button-sm p-button-danger"
@@ -377,6 +449,8 @@ import Sidebar from "primevue/sidebar";
 import Tooltip from "primevue/tooltip";
 import Fieldset from "primevue/fieldset";
 import InputNumber from "primevue/inputnumber";
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
 import { mapState, mapActions, mapGetters } from "vuex";
 
 
@@ -539,6 +613,8 @@ export default defineComponent({
     Fieldset,
     InputNumber,
     VirtualScroller,
+    Accordion,
+    AccordionTab,
   },
 });
 </script>
@@ -608,8 +684,9 @@ export default defineComponent({
 }
 
 .product-scroll {
-  height: 50vh;
+  max-height: 40vh;
   overflow-y: scroll;
+  overscroll-behavior: contain;
 }
 
 .product-scroll::-webkit-scrollbar-thumb {

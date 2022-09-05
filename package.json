@@ -27,6 +27,7 @@
         "autoprefixer": "10.4.5",
         "primeicons": "^5.0.0",
         "primevue": "^3.15.0",
+        "screen-size-detector": "^1.0.4",
         "vuex": "^4.0.2"
     }
 }

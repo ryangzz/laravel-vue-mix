@@ -1,4 +1,5 @@
 import cash_register_steps from "../constants/cash_register_steps";
+import payment_types from "../constants/payment_types";
 
 
 const cashRegister = {
@@ -10,8 +11,18 @@ const cashRegister = {
         categories: [],
         initialAmount: null,
         sells: [],
-        isOpen:false,
-        cash_register_step: cash_register_steps.SummaryCashRegister
+        payment: {
+            cash: '',
+            credit: '',
+            credit_ticket:'',
+            other_payment: '',
+            other_ticket: '',
+            cash_payment: '',
+            error_change: false,
+            error:null,
+        },        
+        isOpen:true,
+        cash_register_step: cash_register_steps.CashRegister
     }),
     mutations: {
         setBusinessLine(state, {businessLine}){
@@ -127,7 +138,68 @@ const cashRegister = {
             state.products = products;
             state.categories = categories;
             state.businessLine = businessLine;
-        }
+        },
+        async stablishTotalAmount({state, getters, commit}, {payment_type}){
+            switch (payment_type) {
+                case payment_types.CASH:   
+                    state.payment.cash = getters.total;
+                    state.payment.credit = '';                  
+                    state.payment.other_payment = '';
+                    break;
+
+                case payment_types.CREDIT:                
+                    state.payment.cash = '';
+                    state.payment.credit = getters.total;                  
+                    state.payment.other_payment = '';
+                    break;
+                
+                case payment_types.OTHER:                
+                    state.payment.cash = '';
+                    state.payment.credit = '';                  
+                    state.payment.other_payment = getters.total;
+                    break;
+            
+                default:
+                    console.warn('payment_type unknown');
+                    break;
+            }
+        },
+        async removeAmountToTypePayment({state, getters, commit}, {payment_type}){
+            switch (payment_type) {
+                case payment_types.CASH:   
+                    state.payment.cash = '';                    
+                    break;
+
+                case payment_types.CREDIT:                                    
+                    state.payment.credit = '';                                      
+                    break;
+                
+                case payment_types.OTHER:                                    
+                    state.payment.other_payment = '';
+                    break;            
+                default:
+                    console.warn('payment_type unknown');
+                    break;
+            }
+        },
+        async stablishRemaining({state, getters, commit}, {payment_type}){
+            switch (payment_type) {
+                case payment_types.CASH:   
+                    state.payment.cash = getters.amountToEstablish;                    
+                    break;
+
+                case payment_types.CREDIT:                                    
+                    state.payment.credit = getters.amountToEstablish;
+                    break;
+                
+                case payment_types.OTHER:                                    
+                    state.payment.other_payment = getters.amountToEstablish;
+                    break;            
+                default:
+                    console.warn('payment_type unknown');
+                    break;
+            }
+        },
 
     },
     getters: {
@@ -136,9 +208,14 @@ const cashRegister = {
                 return previousValue + Number(currentValue.price) * Number(currentValue.quantity);
             }, 0)).toFixed(2)       
         },
-        amountToEstablish(){
-
+        totalQuantityItems({cartItems}){
+            return cartItems.reduce((previousValue, currentValue) =>{
+                return previousValue + currentValue.quantity;
+            }, 0)
         },
+        amountToEstablish({payment}, {total}){            
+            return parseFloat(total) - parseFloat(payment.cash != '' ? payment.cash : 0 ) - parseFloat(payment.credit != '' ? payment.credit : 0) - parseFloat(payment.other_payment != '' ? payment.other_payment : 0);
+        },        
         changeCashAmount(){
 
         },

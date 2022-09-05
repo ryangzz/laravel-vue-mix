@@ -23145,7 +23145,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primevue_tooltip__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! primevue/tooltip */ "./node_modules/primevue/tooltip/tooltip.esm.js");
 /* harmony import */ var primevue_fieldset__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! primevue/fieldset */ "./node_modules/primevue/fieldset/fieldset.esm.js");
 /* harmony import */ var primevue_inputnumber__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! primevue/inputnumber */ "./node_modules/primevue/inputnumber/inputnumber.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var primevue_accordion__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! primevue/accordion */ "./node_modules/primevue/accordion/accordion.esm.js");
+/* harmony import */ var primevue_accordiontab__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! primevue/accordiontab */ "./node_modules/primevue/accordiontab/accordiontab.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _constants_payment_types__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../constants/payment_types */ "./resources/js/constants/payment_types.js");
+/* harmony import */ var screen_size_detector__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! screen-size-detector */ "./node_modules/screen-size-detector/src/index.js");
+/* harmony import */ var screen_size_detector__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(screen_size_detector__WEBPACK_IMPORTED_MODULE_18__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23168,11 +23173,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
+
+var screen = new (screen_size_detector__WEBPACK_IMPORTED_MODULE_18___default())();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  mounted: function mounted() {
+    if (screen.is.mobile || screen.is.smartwatch) {
+      this.showStickyPayment = true;
+      this.fullScreenSideBar = true;
+    }
+  },
   data: function data() {
     var _this = this;
 
     return {
+      showStickyPayment: false,
+      fullScreenSideBar: false,
+      payment_types: _constants_payment_types__WEBPACK_IMPORTED_MODULE_17__["default"],
       searchTextFavorites: "",
       titleCategoryModal: "",
       searchCodeInput: "",
@@ -23198,6 +23217,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         label: "Pagar",
         icon: "pi pi-money-bill",
         command: function command() {
+          if (!_this.canBePaid) return;
+
           _this.makePayment();
         }
       }, {
@@ -23217,15 +23238,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         label: "Capturar código",
         icon: "fas fa-barcode",
         command: function command() {
-          var toast = _this.$refs.toast;
-          var x = _this.$refs.inputBarcode; //x.focus();
-
-          console.log(x.focus());
+          _this.$refs.inputBarcode.focus();
         }
       }]
     };
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_15__.mapGetters)('cashRegister', ['total'])), (0,vuex__WEBPACK_IMPORTED_MODULE_15__.mapState)('cashRegister', ['products', 'categories', 'cartItems'])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapGetters)('cashRegister', ['total', 'amountToEstablish', 'totalQuantityItems'])), (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapState)('cashRegister', ['products', 'categories', 'cartItems', 'payment'])), {}, {
     productsFiltered: function productsFiltered() {
       var _this2 = this;
 
@@ -23247,9 +23265,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.products.filter(function (p) {
         return p.category_id == _this3.categorySelected.id;
       });
+    },
+    canBePaid: function canBePaid() {
+      return this.total > 0;
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_15__.mapActions)('cashRegister', ['addProduct', 'searchByCode', 'deleteAllProducts', 'updateProductQuantity', 'deleteProduct'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapActions)('cashRegister', ['addProduct', 'stablishRemaining', 'stablishTotalAmount', 'removeAmountToTypePayment', 'searchByCode', 'deleteAllProducts', 'updateProductQuantity', 'deleteProduct'])), {}, {
     subQuantity: function subQuantity(item) {
       this.updateProductQuantity({
         product: item,
@@ -23329,7 +23350,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Listbox: primevue_listbox__WEBPACK_IMPORTED_MODULE_9__["default"],
     Fieldset: primevue_fieldset__WEBPACK_IMPORTED_MODULE_13__["default"],
     InputNumber: primevue_inputnumber__WEBPACK_IMPORTED_MODULE_14__["default"],
-    VirtualScroller: primevue_virtualscroller__WEBPACK_IMPORTED_MODULE_5__["default"]
+    VirtualScroller: primevue_virtualscroller__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Accordion: primevue_accordion__WEBPACK_IMPORTED_MODULE_15__["default"],
+    AccordionTab: primevue_accordiontab__WEBPACK_IMPORTED_MODULE_16__["default"]
   }
 }));
 
@@ -23532,251 +23555,324 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "row"
 };
-var _hoisted_3 = {
-  "class": "col-md-8"
-};
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "font-weight-normal"
-}, "Por establecer: $240.00", -1
-/* HOISTED */
-);
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Total: $");
 
-var _hoisted_5 = {
-  "class": "mb-4"
-};
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Efectivo "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fas fa-money-bill-wave"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_7 = {
-  "class": "p-inputgroup"
-};
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "p-inputgroup-addon"
-}, "$", -1
-/* HOISTED */
-);
-
-var _hoisted_9 = {
-  "class": "mb-4"
-};
-
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Tarjeta de credito "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "far fa-credit-card"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_11 = {
-  "class": "p-inputgroup"
-};
-
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "p-inputgroup-addon"
-}, "$", -1
-/* HOISTED */
-);
-
-var _hoisted_13 = {
-  "class": "d-flex justify-content-between align-items-center"
-};
-
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-  "class": "mb-0"
-}, "Folio:", -1
-/* HOISTED */
-);
-
-var _hoisted_15 = {
-  "class": "mb-4"
-};
-var _hoisted_16 = {
-  "class": "p-inputgroup"
-};
-
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "p-inputgroup-addon"
-}, "$", -1
-/* HOISTED */
-);
-
-var _hoisted_18 = {
-  "class": "d-flex justify-content-end align-items-center"
-};
-
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cambio "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fas fa-coins"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_21 = {
-  "class": "d-flex justify-content-between"
-};
-
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Generar venta ");
-
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "ml-2 pi pi-check"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_24 = {
-  "class": "p-inputgroup"
-};
-var _hoisted_25 = {
-  "class": "p-input-icon-left w-100"
-};
-
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fas fa-barcode"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_27 = {
-  "class": "d-flex flex-sm-row flex-column justify-content-between my-2"
-};
-
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Favoritos", -1
-/* HOISTED */
-);
-
-var _hoisted_29 = {
-  "class": "p-input-icon-right"
-};
-
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "pi pi-search"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_31 = {
-  "class": "mb-1 font-weight-bold"
-};
-var _hoisted_32 = {
-  "class": "pr-4 d-flex justify-content-between align align-items-center"
-};
-
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "d-flex justify-content-between my-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Categorias")], -1
-/* HOISTED */
-);
-
-var _hoisted_34 = {
-  "class": "container"
-};
-var _hoisted_35 = {
-  "class": "row"
-};
-var _hoisted_36 = {
-  "class": "col-md-4 h-100"
-};
-
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Total: ");
-
-var _hoisted_38 = {
+var _hoisted_4 = {
   key: 0
 };
-var _hoisted_39 = {
+var _hoisted_5 = {
   key: 1,
   "class": "product-scroll"
 };
-var _hoisted_40 = {
+var _hoisted_6 = {
   "class": "d-flex justify-content-between"
 };
-var _hoisted_41 = {
+var _hoisted_7 = {
   "class": "w-50"
 };
-var _hoisted_42 = {
+var _hoisted_8 = {
   "class": "w-50 d-flex align-items-center justify-content-end"
 };
-var _hoisted_43 = {
+var _hoisted_9 = {
   style: {
     "font-size": "2.8vh"
   },
   "class": "text-muted mb-0 font-weight-lighter"
 };
 
-var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "mx-1 mb-0"
 }, "-", -1
 /* HOISTED */
 );
 
-var _hoisted_45 = {
+var _hoisted_11 = {
   "class": "font-weight-bold mb-0"
 };
-var _hoisted_46 = {
+var _hoisted_12 = {
   "class": "d-flex justify-content-between"
 };
-var _hoisted_47 = {
+var _hoisted_13 = {
   "class": "w-75 p-inputgroup",
   style: {
     "height": "5.5vh"
   }
 };
-var _hoisted_48 = {
+var _hoisted_14 = {
   "class": "w-25 text-right"
 };
 
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Pagar ");
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Pagar ");
 
-var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "ml-2 pi pi-money-bill"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "¡Varios Productos fueron encontrados con ese codigo!", -1
+var _hoisted_18 = {
+  "class": "col-md-8"
+};
+var _hoisted_19 = {
+  "class": "d-flex justify-content-between"
+};
+var _hoisted_20 = {
+  "class": "font-weight-normal"
+};
+var _hoisted_21 = {
+  "class": "font-weight-normal text-right"
+};
+var _hoisted_22 = {
+  "class": "mb-4"
+};
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Efectivo "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-money-bill-wave"
+})], -1
 /* HOISTED */
 );
 
+var _hoisted_24 = {
+  "class": "p-inputgroup"
+};
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "p-inputgroup-addon"
+}, "$", -1
+/* HOISTED */
+);
+
+var _hoisted_26 = {
+  "class": "mb-4"
+};
+
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Tarjeta de credito "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "far fa-credit-card"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_28 = {
+  "class": "p-inputgroup"
+};
+
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "p-inputgroup-addon"
+}, "$", -1
+/* HOISTED */
+);
+
+var _hoisted_30 = {
+  key: 0,
+  "class": "d-flex justify-content-between align-items-center"
+};
+
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+  "class": "mb-0"
+}, "Folio:", -1
+/* HOISTED */
+);
+
+var _hoisted_32 = {
+  "class": "mb-4"
+};
+var _hoisted_33 = {
+  "class": "p-inputgroup"
+};
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "p-inputgroup-addon"
+}, "$", -1
+/* HOISTED */
+);
+
+var _hoisted_35 = {
+  key: 0,
+  "class": "d-flex justify-content-end align-items-center"
+};
+
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cambio "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-coins"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_38 = {
+  "class": "d-flex justify-content-between"
+};
+
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Generar venta ");
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "ml-2 pi pi-check"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_41 = {
+  "class": "p-inputgroup"
+};
+var _hoisted_42 = {
+  "class": "p-input-icon-left w-100"
+};
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fas fa-barcode"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_44 = {
+  "class": "d-flex flex-sm-row flex-column justify-content-between my-2"
+};
+
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Favoritos", -1
+/* HOISTED */
+);
+
+var _hoisted_46 = {
+  "class": "p-input-icon-right"
+};
+
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "pi pi-search"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_48 = {
+  style: {
+    "max-height": "200px",
+    "overflow-y": "scroll"
+  }
+};
+var _hoisted_49 = {
+  "class": "table table-sm"
+};
+var _hoisted_50 = {
+  scope: "row",
+  "class": "pt-2"
+};
+
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "d-flex justify-content-between my-2"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Categorias")], -1
+/* HOISTED */
+);
+
+var _hoisted_52 = {
+  "class": "container"
+};
 var _hoisted_53 = {
-  "class": "w-100"
+  "class": "row"
 };
 var _hoisted_54 = {
-  "class": "d-flex justify-content-between"
+  "class": "col-md-4 h-100"
 };
-var _hoisted_55 = {
-  "class": "w-100"
-};
+
+var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Total: ");
+
 var _hoisted_56 = {
-  "class": "d-flex justify-content-between"
+  key: 0
 };
 var _hoisted_57 = {
+  key: 1,
+  "class": "product-scroll"
+};
+var _hoisted_58 = {
+  "class": "d-flex justify-content-between"
+};
+var _hoisted_59 = {
+  "class": "w-50"
+};
+var _hoisted_60 = {
+  "class": "w-50 d-flex align-items-center justify-content-end"
+};
+var _hoisted_61 = {
+  style: {
+    "font-size": "2.8vh"
+  },
+  "class": "text-muted mb-0 font-weight-lighter"
+};
+
+var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "mx-1 mb-0"
+}, "-", -1
+/* HOISTED */
+);
+
+var _hoisted_63 = {
+  "class": "font-weight-bold mb-0"
+};
+var _hoisted_64 = {
+  "class": "d-flex justify-content-between"
+};
+var _hoisted_65 = {
+  "class": "w-75 p-inputgroup",
+  style: {
+    "height": "5.5vh"
+  }
+};
+var _hoisted_66 = {
+  "class": "w-25 text-right"
+};
+
+var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_68 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Pagar ");
+
+var _hoisted_69 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "ml-2 pi pi-money-bill"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_70 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "¡Varios Productos fueron encontrados con ese codigo!", -1
+/* HOISTED */
+);
+
+var _hoisted_71 = {
+  "class": "w-100"
+};
+var _hoisted_72 = {
+  "class": "d-flex justify-content-between"
+};
+var _hoisted_73 = {
+  "class": "w-100"
+};
+var _hoisted_74 = {
+  "class": "d-flex justify-content-between"
+};
+var _hoisted_75 = {
   "class": "circle-link"
 };
 function render(_ctx, _cache) {
-  var _component_AppInput = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppInput");
-
   var _component_AppButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppButton");
 
   var _component_InputNumber = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("InputNumber");
+
+  var _component_AccordionTab = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AccordionTab");
+
+  var _component_Accordion = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Accordion");
+
+  var _component_AppInput = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppInput");
 
   var _component_Fieldset = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Fieldset");
 
   var _component_Sidebar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Sidebar");
 
   var _component_Divider = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Divider");
-
-  var _component_Carousel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Carousel");
 
   var _component_Card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Card");
 
@@ -23790,78 +23886,268 @@ function render(_ctx, _cache) {
 
   var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Sidebar, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_ctx.showStickyPayment ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Accordion, {
+    key: 0,
+    "class": "w-100 fixed-top position-sticky"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AccordionTab, null, {
+        header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.total), 1
+          /* TEXT */
+          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" [" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.totalQuantityItems) + " Arts.] ", 1
+          /* TEXT */
+          )])])];
+        }),
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_ctx.cartItems.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_4, "Sin productos")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cartItems, function (item) {
+            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+              "class": "px-1",
+              key: item.id
+            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
+            /* TEXT */
+            ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price).toFixed(2)) + "/u. ", 1
+            /* TEXT */
+            ), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price * item.quantity).toFixed(2)), 1
+            /* TEXT */
+            )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+              icon: "pi pi-plus",
+              "class": "p-button-info p-button-sm",
+              onClick: function onClick($event) {
+                return _ctx.addQuantity(item);
+              }
+            }, null, 8
+            /* PROPS */
+            , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
+              "class": "p-inputtext-sm text-center",
+              placeholder: "Cantidad",
+              min: 1,
+              modelValue: item.quantity,
+              "onUpdate:modelValue": function onUpdateModelValue($event) {
+                return item.quantity = $event;
+              }
+            }, null, 8
+            /* PROPS */
+            , ["modelValue", "onUpdate:modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+              onClick: function onClick($event) {
+                return _ctx.subQuantity(item);
+              },
+              disabled: item.quantity == 1,
+              icon: "pi pi-minus",
+              "class": "p-button-warning p-button-sm"
+            }, null, 8
+            /* PROPS */
+            , ["onClick", "disabled"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+              onClick: function onClick($event) {
+                return _ctx.deleteProduct({
+                  productId: item.id
+                });
+              },
+              style: {
+                "height": "5.5vh"
+              },
+              icon: "pi pi-trash",
+              "class": "p-button-sm p-button-danger"
+            }, null, 8
+            /* PROPS */
+            , ["onClick"])])]), _hoisted_15]);
+          }), 128
+          /* KEYED_FRAGMENT */
+          ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+            onClick: _ctx.makePayment,
+            disabled: !_ctx.canBePaid,
+            "class": "p-button-rounded w-100 p-button-success mt-4 d-flex justify-content-center"
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_16, _hoisted_17];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["onClick", "disabled"])];
+        }),
+        _: 1
+        /* STABLE */
+
+      })];
+    }),
+    _: 1
+    /* STABLE */
+
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Sidebar, {
     visible: _ctx.visibleRight,
-    "onUpdate:visible": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:visible": _cache[12] || (_cache[12] = function ($event) {
       return _ctx.visibleRight = $event;
     }),
     "base-z-index": 10000,
-    position: "right"
+    position: _ctx.fullScreenSideBar ? 'full' : 'right'
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_20, "Total: $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(_ctx.total).toFixed(2)), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_21, "Por establecer: $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(_ctx.amountToEstablish).toFixed(2)), 1
+      /* TEXT */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
         "class": "p-inputtext-sm",
+        modelValue: _ctx.payment.cash,
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return _ctx.payment.cash = $event;
+        }),
         placeholder: "0.00"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+      }, null, 8
+      /* PROPS */
+      , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        disabled: _ctx.amountToEstablish <= 0,
+        onClick: _cache[1] || (_cache[1] = function ($event) {
+          return _ctx.stablishRemaining({
+            payment_type: _ctx.payment_types.CASH
+          });
+        }),
         "class": "p-button-help",
         icon: "far fa-hand-lizard"
-      }, null, 512
-      /* NEED_PATCH */
-      ), [[_directive_tooltip, 'Establecer restante', void 0, {
-        top: true
-      }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+      }, null, 8
+      /* PROPS */
+      , ["disabled"]), [[_directive_tooltip, 'Establecer restante', void 0, {
+        left: true
+      }]]), _ctx.payment.cash != '' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AppButton, {
+        key: 0,
+        onClick: _cache[2] || (_cache[2] = function ($event) {
+          return _ctx.removeAmountToTypePayment({
+            payment_type: _ctx.payment_types.CASH
+          });
+        }),
         icon: "fas fa-hand-holding"
       }, null, 512
       /* NEED_PATCH */
-      ), [[_directive_tooltip, 'Quitar todo']])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
-        "class": "p-inputtext-sm",
-        placeholder: "0.00"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
-        "class": "p-button-help",
-        icon: "far fa-hand-lizard"
-      }, null, 512
-      /* NEED_PATCH */
-      ), [[_directive_tooltip, 'Establecer restante', void 0, {
-        top: true
-      }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+      )), [[_directive_tooltip, 'Quitar todo', void 0, {
+        left: true
+      }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AppButton, {
+        key: 1,
+        onClick: _cache[3] || (_cache[3] = function ($event) {
+          return _ctx.stablishTotalAmount({
+            payment_type: _ctx.payment_types.CASH
+          });
+        }),
         icon: "fas fa-hand-holding-usd"
       }, null, 512
       /* NEED_PATCH */
-      ), [[_directive_tooltip, 'Establecer todo']])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+      )), [[_directive_tooltip, 'Establecer todo', void 0, {
+        left: true
+      }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+        "class": "p-inputtext-sm",
+        modelValue: _ctx.payment.credit,
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return _ctx.payment.credit = $event;
+        }),
+        placeholder: "0.00"
+      }, null, 8
+      /* PROPS */
+      , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        "class": "p-button-help",
+        disabled: _ctx.amountToEstablish <= 0,
+        onClick: _cache[5] || (_cache[5] = function ($event) {
+          return _ctx.stablishRemaining({
+            payment_type: _ctx.payment_types.CREDIT
+          });
+        }),
+        icon: "far fa-hand-lizard"
+      }, null, 8
+      /* PROPS */
+      , ["disabled"]), [[_directive_tooltip, 'Establecer restante', void 0, {
+        left: true
+      }]]), _ctx.payment.credit != '' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AppButton, {
+        key: 0,
+        onClick: _cache[6] || (_cache[6] = function ($event) {
+          return _ctx.removeAmountToTypePayment({
+            payment_type: _ctx.payment_types.CREDIT
+          });
+        }),
+        icon: "fas fa-hand-holding"
+      }, null, 512
+      /* NEED_PATCH */
+      )), [[_directive_tooltip, 'Quitar todo', void 0, {
+        left: true
+      }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AppButton, {
+        key: 1,
+        onClick: _cache[7] || (_cache[7] = function ($event) {
+          return _ctx.stablishTotalAmount({
+            payment_type: _ctx.payment_types.CREDIT
+          });
+        }),
+        icon: "fas fa-hand-holding-usd"
+      }, null, 512
+      /* NEED_PATCH */
+      )), [[_directive_tooltip, 'Establecer todo', void 0, {
+        left: true
+      }]])]), _ctx.payment.credit != '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
         style: {
           "height": "30px"
         },
         type: "text",
         "class": "mt-1",
-        placeholder: "#ticket, folio, etc"
-      })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Fieldset, {
+        placeholder: "# Ticket, folio, etc"
+      })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Fieldset, {
         legend: "Otros",
         toggleable: true,
         collapsed: true
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h5>Otro <i class=\"fas fa-pen\"></i></h5> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h5>Otro <i class=\"fas fa-pen\"></i></h5> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
             "class": "p-inputtext-sm",
+            modelValue: _ctx.payment.other_payment,
+            "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+              return _ctx.payment.other_payment = $event;
+            }),
             placeholder: "0.00"
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+          }, null, 8
+          /* PROPS */
+          , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
             "class": "p-button-help",
+            disabled: _ctx.amountToEstablish <= 0,
+            onClick: _cache[9] || (_cache[9] = function ($event) {
+              return _ctx.stablishRemaining({
+                payment_type: _ctx.payment_types.OTHER
+              });
+            }),
             icon: "far fa-hand-lizard"
+          }, null, 8
+          /* PROPS */
+          , ["disabled"]), [[_directive_tooltip, 'Establecer restante', void 0, {
+            top: true
+          }]]), _ctx.payment.other_payment != '' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AppButton, {
+            key: 0,
+            onClick: _cache[10] || (_cache[10] = function ($event) {
+              return _ctx.removeAmountToTypePayment({
+                payment_type: _ctx.payment_types.OTHER
+              });
+            }),
+            icon: "fas fa-hand-holding"
           }, null, 512
           /* NEED_PATCH */
-          ), [[_directive_tooltip, 'Establecer restante', void 0, {
-            top: true
-          }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+          )), [[_directive_tooltip, 'Quitar todo', void 0, {
+            left: true
+          }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AppButton, {
+            key: 1,
+            onClick: _cache[11] || (_cache[11] = function ($event) {
+              return _ctx.stablishTotalAmount({
+                payment_type: _ctx.payment_types.OTHER
+              });
+            }),
             icon: "fas fa-hand-holding-usd"
           }, null, 512
           /* NEED_PATCH */
-          ), [[_directive_tooltip, 'Establecer todo']])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+          )), [[_directive_tooltip, 'Establecer todo', void 0, {
+            left: true
+          }]])]), _ctx.payment.other_payment != '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
             style: {
               "height": "30px"
             },
             type: "text",
             "class": "mt-1",
             placeholder: "Cheque, credito, cupon, etc."
-          })]), _hoisted_19, _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
+          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_36, _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
             currency: "USD",
             locale: "en-US",
             "class": "p-inputtext-sm",
@@ -23883,33 +24169,34 @@ function render(_ctx, _cache) {
 
       })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
         onClick: _ctx.makePayment,
+        disabled: !_ctx.canBePaid,
         "class": "p-button-rounded w-100 p-button-success mt-4 d-flex justify-content-center"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_22, _hoisted_23];
+          return [_hoisted_39, _hoisted_40];
         }),
         _: 1
         /* STABLE */
 
       }, 8
       /* PROPS */
-      , ["onClick"])];
+      , ["onClick", "disabled"])];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["visible"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, null, {
+  , ["visible", "position"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, null, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         ref: "inputBarcode",
         "class": "p-inputtext p-component w-100",
         type: "number",
-        onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+        onKeyup: _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
           return _ctx.submitSearchCode && _ctx.submitSearchCode.apply(_ctx, arguments);
         }, ["enter"])),
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
           return _ctx.searchCodeInput = $event;
         }),
         placeholder: "Busqueda por código"
@@ -23921,42 +24208,32 @@ function render(_ctx, _cache) {
         "class": "p-button-secondary"
       }, null, 8
       /* PROPS */
-      , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
+      , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, [_hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppInput, {
         modelValue: _ctx.searchTextFavorites,
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+        "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
           return _ctx.searchTextFavorites = $event;
         }),
-        "class": "p-inputtext-sm",
+        "class": "p-inputtext-sm w-100",
         placeholder: "Busqueda por favoritos"
       }, null, 8
       /* PROPS */
-      , ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Carousel, {
-        value: _ctx.productsFiltered,
-        "num-visible": 3,
-        "num-scroll": 3,
-        "responsive-options": _ctx.responsiveOptions
-      }, {
-        item: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.name), 1
-          /* TEXT */
-          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.price), 1
-          /* TEXT */
-          ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
-            onClick: function onClick($event) {
-              return _ctx.addCart(slotProps.data);
-            },
-            icon: "pi pi-shopping-cart",
-            "class": "p-button-rounded p-button-success p-button-outlined"
-          }, null, 8
-          /* PROPS */
-          , ["onClick"])])];
-        }),
-        _: 1
-        /* STABLE */
-
-      }, 8
-      /* PROPS */
-      , ["value", "responsive-options"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.categories, function (category, idx) {
+      , ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.productsFiltered, function (product) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+          key: product.id
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.name) + " - $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(product.price), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+          onClick: function onClick($event) {
+            return _ctx.addCart(product);
+          },
+          icon: "pi pi-shopping-cart",
+          "class": "p-button-rounded p-button-success p-button-outlined"
+        }, null, 8
+        /* PROPS */
+        , ["onClick"])])]);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Divider), _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.categories, function (category, idx) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           "class": "col-sm-6 col-lg-4",
           key: category.label
@@ -23982,23 +24259,25 @@ function render(_ctx, _cache) {
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Card, {
     "class": "right-panel"
   }, {
     content: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.total), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.total), 1
       /* TEXT */
-      )]), _ctx.cartItems.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_38, "Sin productos")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cartItems, function (item) {
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" [" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.totalQuantityItems) + " Arts.] ", 1
+      /* TEXT */
+      )]), _ctx.cartItems.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_56, "Sin productos")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.cartItems, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           "class": "px-1",
           key: item.id
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price).toFixed(2)) + "/u. ", 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_61, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price).toFixed(2)) + "/u. ", 1
         /* TEXT */
-        ), _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_45, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price * item.quantity).toFixed(2)), 1
+        ), _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_63, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat(item.price * item.quantity).toFixed(2)), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
           icon: "pi pi-plus",
           "class": "p-button-info p-button-sm",
           onClick: function onClick($event) {
@@ -24009,7 +24288,7 @@ function render(_ctx, _cache) {
         , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_InputNumber, {
           "class": "p-inputtext-sm text-center",
           placeholder: "Cantidad",
-          min: "1",
+          min: 1,
           modelValue: item.quantity,
           "onUpdate:modelValue": function onUpdateModelValue($event) {
             return item.quantity = $event;
@@ -24025,7 +24304,7 @@ function render(_ctx, _cache) {
           "class": "p-button-warning p-button-sm"
         }, null, 8
         /* PROPS */
-        , ["onClick", "disabled"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+        , ["onClick", "disabled"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
           onClick: function onClick($event) {
             return _ctx.deleteProduct({
               productId: item.id
@@ -24038,22 +24317,23 @@ function render(_ctx, _cache) {
           "class": "p-button-sm p-button-danger"
         }, null, 8
         /* PROPS */
-        , ["onClick"])])]), _hoisted_49]);
+        , ["onClick"])])]), _hoisted_67]);
       }), 128
       /* KEYED_FRAGMENT */
       ))])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
         onClick: _ctx.makePayment,
+        disabled: !_ctx.canBePaid,
         "class": "p-button-rounded w-100 p-button-success mt-4 d-flex justify-content-center"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_50, _hoisted_51];
+          return [_hoisted_68, _hoisted_69];
         }),
         _: 1
         /* STABLE */
 
       }, 8
       /* PROPS */
-      , ["onClick"])];
+      , ["onClick", "disabled"])];
     }),
     _: 1
     /* STABLE */
@@ -24069,15 +24349,15 @@ function render(_ctx, _cache) {
       width: '50vw'
     },
     visible: _ctx.displayModalSearchProducts,
-    "onUpdate:visible": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:visible": _cache[16] || (_cache[16] = function ($event) {
       return _ctx.displayModalSearchProducts = $event;
     })
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_52];
+      return [_hoisted_70];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
         options: _ctx.products,
         filter: true,
         "option-label": "name",
@@ -24086,7 +24366,7 @@ function render(_ctx, _cache) {
         "filter-placeholder": "Buscar"
       }, {
         option: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
           /* TEXT */
           ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
             onClick: function onClick($event) {
@@ -24121,7 +24401,7 @@ function render(_ctx, _cache) {
       width: '50vw'
     },
     visible: _ctx.displayModalProductsCategory,
-    "onUpdate:visible": _cache[5] || (_cache[5] = function ($event) {
+    "onUpdate:visible": _cache[17] || (_cache[17] = function ($event) {
       return _ctx.displayModalProductsCategory = $event;
     })
   }, {
@@ -24131,7 +24411,7 @@ function render(_ctx, _cache) {
       )];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Listbox, {
         options: _ctx.productsCategorySelected,
         filter: true,
         "option-label": "name",
@@ -24140,7 +24420,7 @@ function render(_ctx, _cache) {
         "filter-placeholder": "Buscar"
       }, {
         option: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.name) + " - $ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.option.price), 1
           /* TEXT */
           ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
             onClick: function onClick($event) {
@@ -24166,10 +24446,11 @@ function render(_ctx, _cache) {
   /* PROPS */
   , ["visible"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Toast, {
     ref: "toast",
+    breakpoints: _ctx.responsiveOptions,
     position: "top-right"
-  }, null, 512
-  /* NEED_PATCH */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Speeddial, {
+  }, null, 8
+  /* PROPS */
+  , ["breakpoints"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Speeddial, {
     model: _ctx.items,
     "tooltip-options": {
       position: 'left'
@@ -24177,7 +24458,7 @@ function render(_ctx, _cache) {
     radius: 80,
     direction: "up-left",
     type: "quarter-circle",
-    "button-class": "p-button-success"
+    "button-class": "p-button-primary"
   }, null, 8
   /* PROPS */
   , ["model"])])], 64
@@ -24567,6 +24848,25 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/constants/payment_types.js":
+/*!*************************************************!*\
+  !*** ./resources/js/constants/payment_types.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  CASH: 'cash',
+  CREDIT: 'credit',
+  OTHER: 'other'
+});
+
+/***/ }),
+
 /***/ "./resources/js/store.js":
 /*!*******************************!*\
   !*** ./resources/js/store.js ***!
@@ -24607,6 +24907,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/cash_register_steps */ "./resources/js/constants/cash_register_steps.js");
+/* harmony import */ var _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/payment_types */ "./resources/js/constants/payment_types.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
@@ -24622,6 +24923,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
 var cashRegister = {
   namespaced: true,
   state: function state() {
@@ -24632,8 +24934,18 @@ var cashRegister = {
       categories: [],
       initialAmount: null,
       sells: [],
-      isOpen: false,
-      cash_register_step: _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].SummaryCashRegister
+      payment: {
+        cash: '',
+        credit: '',
+        credit_ticket: '',
+        other_payment: '',
+        other_ticket: '',
+        cash_payment: '',
+        error_change: false,
+        error: null
+      },
+      isOpen: true,
+      cash_register_step: _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].CashRegister
     };
   },
   mutations: {
@@ -24818,16 +25130,143 @@ var cashRegister = {
           }
         }, _callee);
       }))();
+    },
+    stablishTotalAmount: function stablishTotalAmount(_ref22, _ref23) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var state, getters, commit, payment_type;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                state = _ref22.state, getters = _ref22.getters, commit = _ref22.commit;
+                payment_type = _ref23.payment_type;
+                _context2.t0 = payment_type;
+                _context2.next = _context2.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].CASH ? 5 : _context2.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].CREDIT ? 9 : _context2.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].OTHER ? 13 : 17;
+                break;
+
+              case 5:
+                state.payment.cash = getters.total;
+                state.payment.credit = '';
+                state.payment.other_payment = '';
+                return _context2.abrupt("break", 19);
+
+              case 9:
+                state.payment.cash = '';
+                state.payment.credit = getters.total;
+                state.payment.other_payment = '';
+                return _context2.abrupt("break", 19);
+
+              case 13:
+                state.payment.cash = '';
+                state.payment.credit = '';
+                state.payment.other_payment = getters.total;
+                return _context2.abrupt("break", 19);
+
+              case 17:
+                console.warn('payment_type unknown');
+                return _context2.abrupt("break", 19);
+
+              case 19:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    removeAmountToTypePayment: function removeAmountToTypePayment(_ref24, _ref25) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var state, getters, commit, payment_type;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                state = _ref24.state, getters = _ref24.getters, commit = _ref24.commit;
+                payment_type = _ref25.payment_type;
+                _context3.t0 = payment_type;
+                _context3.next = _context3.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].CASH ? 5 : _context3.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].CREDIT ? 7 : _context3.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].OTHER ? 9 : 11;
+                break;
+
+              case 5:
+                state.payment.cash = '';
+                return _context3.abrupt("break", 13);
+
+              case 7:
+                state.payment.credit = '';
+                return _context3.abrupt("break", 13);
+
+              case 9:
+                state.payment.other_payment = '';
+                return _context3.abrupt("break", 13);
+
+              case 11:
+                console.warn('payment_type unknown');
+                return _context3.abrupt("break", 13);
+
+              case 13:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    stablishRemaining: function stablishRemaining(_ref26, _ref27) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var state, getters, commit, payment_type;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                state = _ref26.state, getters = _ref26.getters, commit = _ref26.commit;
+                payment_type = _ref27.payment_type;
+                _context4.t0 = payment_type;
+                _context4.next = _context4.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].CASH ? 5 : _context4.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].CREDIT ? 7 : _context4.t0 === _constants_payment_types__WEBPACK_IMPORTED_MODULE_1__["default"].OTHER ? 9 : 11;
+                break;
+
+              case 5:
+                state.payment.cash = getters.amountToEstablish;
+                return _context4.abrupt("break", 13);
+
+              case 7:
+                state.payment.credit = getters.amountToEstablish;
+                return _context4.abrupt("break", 13);
+
+              case 9:
+                state.payment.other_payment = getters.amountToEstablish;
+                return _context4.abrupt("break", 13);
+
+              case 11:
+                console.warn('payment_type unknown');
+                return _context4.abrupt("break", 13);
+
+              case 13:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   getters: {
-    total: function total(_ref22) {
-      var cartItems = _ref22.cartItems;
+    total: function total(_ref28) {
+      var cartItems = _ref28.cartItems;
       return parseFloat(cartItems.reduce(function (previousValue, currentValue) {
         return previousValue + Number(currentValue.price) * Number(currentValue.quantity);
       }, 0)).toFixed(2);
     },
-    amountToEstablish: function amountToEstablish() {},
+    totalQuantityItems: function totalQuantityItems(_ref29) {
+      var cartItems = _ref29.cartItems;
+      return cartItems.reduce(function (previousValue, currentValue) {
+        return previousValue + currentValue.quantity;
+      }, 0);
+    },
+    amountToEstablish: function amountToEstablish(_ref30, _ref31) {
+      var payment = _ref30.payment;
+      var total = _ref31.total;
+      return parseFloat(total) - parseFloat(payment.cash != '' ? payment.cash : 0) - parseFloat(payment.credit != '' ? payment.credit : 0) - parseFloat(payment.other_payment != '' ? payment.other_payment : 0);
+    },
     changeCashAmount: function changeCashAmount() {},
     title: function title(state) {
       if (state.cash_register_step == _constants_cash_register_steps__WEBPACK_IMPORTED_MODULE_0__["default"].CashRegister) {
@@ -30007,7 +30446,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.circle-link {\r\n  position: fixed !important;\r\n  margin-right: 10px;\r\n  width: 30px !important;\r\n  height: 50px !important;\r\n  bottom: 50px !important;\r\n  right: 40px !important;\r\n  text-align: center;\r\n  z-index: 1020;\n}\n.product-item {\r\n  display: flex;\r\n  align-items: center;\r\n  padding: 0.5rem;\r\n  width: 100%;\n}\n.product-item img {\r\n  width: 75px;\r\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\r\n  margin-right: 1rem;\n}\n.product-item .product-list-detail {\r\n  flex: 1 1 0;\n}\n.product-item .product-list-action {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-end;\n}\n.product-item .product-category-icon {\r\n  vertical-align: middle;\r\n  margin-right: 0.5rem;\r\n  font-size: 0.875rem;\n}\n.product-item .product-category {\r\n  vertical-align: middle;\r\n  line-height: 1;\r\n  font-size: 0.875rem;\n}\n@media screen and (max-width: 576px) {\n.product-item {\r\n    flex-wrap: wrap;\n}\n.product-item .image-container {\r\n    width: 100%;\r\n    text-align: center;\n}\n.product-item img {\r\n    margin: 0 0 1rem 0;\r\n    width: 100px;\n}\n}\n.product-scroll{\r\n    height: 50vh;\r\n    overflow-y: scroll;\n}\n.product-scroll::-webkit-scrollbar-thumb {\r\n    background: #ccc;\r\n    scrollbar-width: thin;\r\n    border-radius: 8px;\n}\n.product-scroll::-webkit-scrollbar{\r\n  width: 8px;\n}\r\n\r\n/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */\n.product-scroll::-webkit-scrollbar-thumb:hover {\r\n    background: #b3b3b3;\r\n    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);\n}\r\n\r\n/* Cambiamos el fondo cuando esté en active */\n.product-scroll::-webkit-scrollbar-thumb:active {\r\n    background-color: #999999;\n}\n.right-panel>.p-card-body{\r\n  padding-bottom: 0px !important;\n}\n.p-sidebar-header{\r\n  padding-bottom: 0px !important;\n}\n.p-inputnumber-input{\r\n  width: 100%;\r\n  text-align: center !important;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.circle-link {\r\n  position: fixed !important;\r\n  margin-right: 10px;\r\n  width: 30px !important;\r\n  height: 50px !important;\r\n  bottom: 50px !important;\r\n  right: 40px !important;\r\n  text-align: center;\r\n  z-index: 1020;\n}\n.product-item {\r\n  display: flex;\r\n  align-items: center;\r\n  padding: 0.5rem;\r\n  width: 100%;\n}\n.product-item img {\r\n  width: 75px;\r\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\r\n  margin-right: 1rem;\n}\n.product-item .product-list-detail {\r\n  flex: 1 1 0;\n}\n.product-item .product-list-action {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: flex-end;\n}\n.product-item .product-category-icon {\r\n  vertical-align: middle;\r\n  margin-right: 0.5rem;\r\n  font-size: 0.875rem;\n}\n.product-item .product-category {\r\n  vertical-align: middle;\r\n  line-height: 1;\r\n  font-size: 0.875rem;\n}\n@media screen and (max-width: 576px) {\n.product-item {\r\n    flex-wrap: wrap;\n}\n.product-item .image-container {\r\n    width: 100%;\r\n    text-align: center;\n}\n.product-item img {\r\n    margin: 0 0 1rem 0;\r\n    width: 100px;\n}\n}\n.product-scroll {\r\n  max-height: 40vh;\r\n  overflow-y: scroll;\r\n  overscroll-behavior: contain;\n}\n.product-scroll::-webkit-scrollbar-thumb {\r\n  background: #ccc;\r\n  scrollbar-width: thin;\r\n  border-radius: 8px;\n}\n.product-scroll::-webkit-scrollbar {\r\n  width: 8px;\n}\r\n\r\n/* Cambiamos el fondo y agregamos una sombra cuando esté en hover */\n.product-scroll::-webkit-scrollbar-thumb:hover {\r\n  background: #b3b3b3;\r\n  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);\n}\r\n\r\n/* Cambiamos el fondo cuando esté en active */\n.product-scroll::-webkit-scrollbar-thumb:active {\r\n  background-color: #999999;\n}\n.right-panel > .p-card-body {\r\n  padding-bottom: 0px !important;\n}\n.p-sidebar-header {\r\n  padding-bottom: 0px !important;\n}\n.p-inputnumber-input {\r\n  width: 100%;\r\n  text-align: center !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -47449,6 +47888,281 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/primevue/accordion/accordion.esm.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/primevue/accordion/accordion.esm.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ script)
+/* harmony export */ });
+/* harmony import */ var primevue_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! primevue/utils */ "./node_modules/primevue/utils/utils.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+
+var script = {
+    name: 'Accordion',
+    emits: ['tab-close', 'tab-open', 'update:activeIndex'],
+    props: {
+        multiple: {
+            type: Boolean,
+            default: false
+        },
+        activeIndex: {
+            type: [Number,Array],
+            default: null
+        },
+        lazy: {
+            type: Boolean,
+            default: false
+        },
+        expandIcon: {
+            type: String,
+            default: 'pi-chevron-right'
+        },
+        collapseIcon: {
+            type: String,
+            default: 'pi-chevron-down'
+        }
+    },
+    data() {
+        return {
+            d_activeIndex: this.activeIndex
+        }
+    },
+    watch: {
+        activeIndex(newValue) {
+            this.d_activeIndex = newValue;
+        }
+    },
+    methods: {
+        onTabClick(event, tab, i) {
+            if (!this.isTabDisabled(tab)) {
+                const active = this.isTabActive(i);
+                const eventName = active ? 'tab-close' : 'tab-open';
+
+                if (this.multiple) {
+                    if (active) {
+                        this.d_activeIndex = this.d_activeIndex.filter(index => index !== i);
+                    }
+                    else {
+                        if (this.d_activeIndex)
+                            this.d_activeIndex.push(i);
+                        else
+                            this.d_activeIndex = [i];
+                    }
+                }
+                else {
+                    this.d_activeIndex = this.d_activeIndex === i ? null : i;
+                }
+
+                this.$emit('update:activeIndex', this.d_activeIndex);
+
+                this.$emit(eventName, {
+                    originalEvent: event,
+                    index: i
+                });
+            }
+        },
+        onTabKeydown(event, tab, i) {
+            if (event.which === 13) {
+                this.onTabClick(event, tab, i);
+            }
+        },
+        isTabActive(index) {
+            if (this.multiple)
+                return this.d_activeIndex && this.d_activeIndex.includes(index);
+            else
+                return index === this.d_activeIndex;
+        },
+        getKey(tab, i) {
+            return (tab.props && tab.props.header) ? tab.props.header : i;
+        },
+        isTabDisabled(tab) {
+            return tab.props && tab.props.disabled;
+        },
+        getTabClass(i) {
+            return ['p-accordion-tab', {'p-accordion-tab-active': this.isTabActive(i)}];
+        },
+        getTabHeaderClass(tab, i) {
+            return ['p-accordion-header', {'p-highlight': this.isTabActive(i), 'p-disabled': this.isTabDisabled(tab)}];
+        },
+        getTabAriaId(i) {
+            return this.ariaId + '_' + i;
+        },
+        getHeaderCollapseIcon() {
+            return ['p-accordion-toggle-icon pi', this.collapseIcon];
+        },
+        getHeaderExpandIcon() {
+            return ['p-accordion-toggle-icon pi', this.expandIcon];
+        },
+        isAccordionTab(child) {
+            return child.type.name === 'AccordionTab';
+        }
+    },
+    computed: {
+        tabs() {
+            const tabs = [];
+            this.$slots.default().forEach(child => {
+                    if (this.isAccordionTab(child)) {
+                        tabs.push(child);
+                    }
+                    else if (child.children && child.children instanceof Array) {
+                        child.children.forEach(nestedChild => {
+                            if (this.isAccordionTab(nestedChild)) {
+                                tabs.push(nestedChild);
+                            }
+                        });
+                    }
+                }
+            );
+            return tabs;
+        },
+        ariaId() {
+            return (0,primevue_utils__WEBPACK_IMPORTED_MODULE_0__.UniqueComponentId)();
+        }
+    }
+};
+
+const _hoisted_1 = { class: "p-accordion p-component" };
+const _hoisted_2 = ["onClick", "onKeydown", "tabindex", "aria-expanded", "id", "aria-controls"];
+const _hoisted_3 = {
+  key: 0,
+  class: "p-accordion-header-text"
+};
+const _hoisted_4 = ["id", "aria-labelledby"];
+const _hoisted_5 = { class: "p-accordion-content" };
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("div", _hoisted_1, [
+    ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_1__.renderList)($options.tabs, (tab, i) => {
+      return ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("div", {
+        key: $options.getKey(tab,i),
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_1__.normalizeClass)($options.getTabClass(i))
+      }, [
+        (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", {
+          class: (0,vue__WEBPACK_IMPORTED_MODULE_1__.normalizeClass)($options.getTabHeaderClass(tab, i))
+        }, [
+          (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("a", {
+            role: "tab",
+            class: "p-accordion-header-link",
+            onClick: $event => ($options.onTabClick($event, tab, i)),
+            onKeydown: $event => ($options.onTabKeydown($event, tab, i)),
+            tabindex: $options.isTabDisabled(tab) ? null : '0',
+            "aria-expanded": $options.isTabActive(i),
+            id: $options.getTabAriaId(i) + '_header',
+            "aria-controls": $options.getTabAriaId(i) + '_content'
+          }, [
+            (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("span", {
+              class: (0,vue__WEBPACK_IMPORTED_MODULE_1__.normalizeClass)($options.isTabActive(i) ? $options.getHeaderCollapseIcon() : $options.getHeaderExpandIcon())
+            }, null, 2),
+            (tab.props && tab.props.header)
+              ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_1__.toDisplayString)(tab.props.header), 1))
+              : (0,vue__WEBPACK_IMPORTED_MODULE_1__.createCommentVNode)("", true),
+            (tab.children && tab.children.header)
+              ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_1__.resolveDynamicComponent)(tab.children.header), { key: 1 }))
+              : (0,vue__WEBPACK_IMPORTED_MODULE_1__.createCommentVNode)("", true)
+          ], 40, _hoisted_2)
+        ], 2),
+        (0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_1__.Transition, { name: "p-toggleable-content" }, {
+          default: (0,vue__WEBPACK_IMPORTED_MODULE_1__.withCtx)(() => [
+            ($props.lazy ? $options.isTabActive(i) : true)
+              ? (0,vue__WEBPACK_IMPORTED_MODULE_1__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("div", {
+                  key: 0,
+                  class: "p-toggleable-content",
+                  role: "region",
+                  id: $options.getTabAriaId(i) + '_content',
+                  "aria-labelledby": $options.getTabAriaId(i) + '_header'
+                }, [
+                  (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", _hoisted_5, [
+                    ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_1__.resolveDynamicComponent)(tab)))
+                  ])
+                ], 8, _hoisted_4)), [
+                  [vue__WEBPACK_IMPORTED_MODULE_1__.vShow, $props.lazy ? true: $options.isTabActive(i)]
+                ])
+              : (0,vue__WEBPACK_IMPORTED_MODULE_1__.createCommentVNode)("", true)
+          ]),
+          _: 2
+        }, 1024)
+      ], 2))
+    }), 128))
+  ]))
+}
+
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = "\n.p-accordion-header-link {\n    cursor: pointer;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    position: relative;\n    text-decoration: none;\n}\n.p-accordion-header-link:focus {\n    z-index: 1;\n}\n.p-accordion-header-text {\n    line-height: 1;\n}\n";
+styleInject(css_248z);
+
+script.render = render;
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/primevue/accordiontab/accordiontab.esm.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/primevue/accordiontab/accordiontab.esm.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ script)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var script = {
+    name: 'AccordionTab',
+    props: {
+        header: null,
+        disabled: Boolean
+    }
+};
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")
+}
+
+script.render = render;
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/primevue/api/api.esm.js":
 /*!**********************************************!*\
   !*** ./node_modules/primevue/api/api.esm.js ***!
@@ -61659,6 +62373,443 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
+
+
+/***/ }),
+
+/***/ "./node_modules/screen-size-detector/src/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/screen-size-detector/src/index.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+/**
+ * --------------------------------------------------------------------------
+ * screen-size-detector by Fakhzan
+ * Licensed under MIT (https://github.com/devfakhzan/screen-size-detector)
+ * --------------------------------------------------------------------------
+ */
+
+class ScreenSizeDetector {
+  constructor(options = {}) {
+    const o = options;
+
+    // User options validators
+    if (o.onHeightChange && typeof o.onHeightChange !== "function")
+      throw this._typeErrorMessageBuilder(
+        '"onHeightChange"',
+        "function",
+        o.onHeightChange
+      );
+    if (o.onWidthChange && typeof o.onWidthChange !== "function")
+      throw this._typeErrorMessageBuilder(
+        '"onWidthChange"',
+        "function",
+        o.onWidthChange
+      );
+    if (o.onBothChange && typeof o.onBothChange !== "function")
+      throw this._typeErrorMessageBuilder(
+        '"onBothChange"',
+        "function",
+        o.onBothChange
+      );
+
+    if (o.widthDefinitions && !this._isEmptyObject(o.widthDefinitions)) {
+      this._validateWidthDefinition(o.widthDefinitions);
+    }
+
+    window.addEventListener("resize", () => this._resizeHandler());
+
+    const defaultOptions = {
+      onHeightChange: () => {},
+      onWidthChange: () => {},
+      onBothChange: () => {},
+      widthDefinitions: {
+        smartwatch: {
+          min: 0,
+          max: 319,
+          inclusion: "[]",
+        },
+        mobile: {
+          min: 320,
+          max: 480,
+          inclusion: "[]",
+        },
+        tablet: {
+          min: 481,
+          max: 768,
+          inclusion: "[]",
+          onEnter: () => {},
+          whileInside: () => {},
+          onLeave: () => {},
+        },
+        laptop: {
+          min: 769,
+          max: 1024,
+          inclusion: "[]",
+        },
+        desktop: {
+          min: 1025,
+          max: 1200,
+          inclusion: "[]",
+        },
+        largedesktop: {
+          min: 1201,
+          max: Infinity,
+          inclusion: "[]",
+        },
+      },
+    };
+
+    // Create final options with defaultOptions as the base, merged/overwritten by user supplied 'options'
+    if (o.widthDefinitions) {
+      if (!this._isEmptyObject(o.widthDefinitions)) {
+        defaultOptions.widthDefinitions = {
+          ...defaultOptions.widthDefinitions,
+          ...o.widthDefinitions,
+        };
+        delete o.widthDefinitions;
+      } else {
+        defaultOptions.widthDefinitions = {};
+      }
+    }
+    const finalOptions = { ...defaultOptions, ...o };
+
+    // Set variables to class instance
+    for (let [key, value] of Object.entries(finalOptions)) {
+      this[key] = value;
+    }
+
+    this.width = Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0
+    );
+    this.height = Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
+
+    const isObj = {};
+    Object.keys(this.widthDefinitions).forEach((key) => (isObj[key] = false));
+    this.is = isObj;
+
+    this._computeIsAndCallbacks();
+  }
+
+  _aOrAn(noun) {
+    return ["a", "e", "i", "o", "u"].includes(noun.charAt(0)) ? "an" : "a";
+  }
+
+  addWidthDefinitions(widthDefinitionObject, onDone = () => {}) {
+    this._validateWidthDefinition(widthDefinitionObject, false);
+
+    for (let [widthCategoryName, screenWidthObject] of Object.entries(
+      widthDefinitionObject
+    )) {
+      this.widthDefinitions[widthCategoryName] = screenWidthObject;
+    }
+
+    this._computeIsAndCallbacks();
+
+    onDone();
+  }
+
+  setMainCallback(when, callback, onDone = () => {}) {
+    const acceptableEvents = {
+      widthchange: "onWidthChange",
+      heightchange: "onHeightChange",
+      bothchange: "onBothChange",
+    };
+
+    if (!Object.keys(acceptableEvents).includes(when))
+      throw `Error: The second parameter (when) has to be a string with a value of either "widthchange", "heightchange" or "bothchange". "${when}" was supplied`;
+
+    const eventName = acceptableEvents[when];
+
+    const callbackType = typeof callback;
+    if (callbackType !== "function") {
+      throw this._typeErrorMessageBuilder(
+        `"${eventName}" for options`,
+        "function",
+        callbackType
+      );
+    }
+
+    this[eventName] = () => callback();
+
+    this._computeIsAndCallbacks();
+
+    onDone();
+  }
+
+  removeMainCallback(when, onDone = () => {}) {
+    const acceptableEvents = {
+      widthchange: "onWidthChange",
+      heightchange: "onHeightChange",
+      bothchange: "onBothChange",
+    };
+
+    if (!Object.keys(acceptableEvents).includes(when))
+      throw `Error: The first parameter (when) has to be a string with a value of either "widthchange", "heightchange" or "bothchange". "${when}" was supplied`;
+
+    const eventName = acceptableEvents[when];
+
+    this[eventName] = () => {};
+
+    onDone();
+  }
+
+  _validateWidthDefinition(obj, atInit = true) {
+    const where = atInit ? "widthDefinition" : "the main object";
+    if (typeof obj !== "object")
+      throw this._typeErrorMessageBuilder(
+        atInit ? where : "The main object",
+        "object",
+        obj
+      );
+
+    // Required keys for a "widthDefinition" with array of acceptable "typeof"s
+    const requiredKeys = {
+      min: ["number"],
+      max: ["number"],
+      inclusion: ["string"],
+    };
+
+    for (let [widthCategoryName, screenWidthObject] of Object.entries(obj)) {
+      if (typeof screenWidthObject !== "object")
+        throw this._typeErrorMessageBuilder(
+          `"${widthCategoryName}" inside ${where}`,
+          "object",
+          screenWidthObject
+        );
+
+      let validObj = true;
+
+      let screenWidthObjectKeys = Object.keys(screenWidthObject);
+      for (let acceptableKey of Object.keys(requiredKeys)) {
+        if (!screenWidthObjectKeys.includes(acceptableKey)) {
+          validObj = false;
+        }
+      }
+
+      if (!validObj) {
+        throw `Invalid ${where} for "${widthCategoryName}" due to missing required object key(s). "${widthCategoryName}" has to be an object containing "min" (Number), "max" (Number) and "inclusion" (String)`;
+      }
+
+      for (let [key, value] of Object.entries(screenWidthObject)) {
+        const acceptableTypes = requiredKeys[key];
+
+        // Current key requires validation
+        if (acceptableTypes && !acceptableTypes.includes(typeof value)) {
+          throw this._typeErrorMessageBuilder(
+            `"${key}" for "${widthCategoryName}" inside ${where}`,
+            acceptableTypes.join(", or "),
+            value
+          );
+        }
+
+        if (screenWidthObject.min > screenWidthObject.max) {
+          throw `Error: The value of "min" has to be equals to or less than the value of "max" for "${widthCategoryName}" inside ${where}`;
+        } else if (screenWidthObject.min > screenWidthObject.max) {
+          throw `Error: The value of "max" has to be equals to or greater than the value of "min" for "${widthCategoryName}" inside ${where}`;
+        }
+
+        if (key === "inclusion") {
+          if (!this._isValidInclusion(value)) {
+            throw `Error: Invalid inclusion provided for screen size "${widthCategoryName}". The only valid value is a string with the value "[]", "()", "[)" or "()"`;
+          }
+        }
+
+        // Optional whileInside, onEnter and onLeave functions. If supplied, they have to be a function
+        const optionalCallbackFunctions = ["whileInside", "onEnter", "onLeave"];
+
+        for (let callbackName of optionalCallbackFunctions) {
+          if (key === callbackName) {
+            if (typeof value !== "function") {
+              throw this._typeErrorMessageBuilder(
+                `"${key}" for "${widthCategoryName}" inside ${where}`,
+                `function if defined`,
+                value
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  removeWidthDefinition(widthCategoryName, onDone = () => {}) {
+    if (!this.widthDefinitions[widthCategoryName]) {
+      throw `"${widthCategoryName}" is not found in "widthDefinitions" for removal`;
+    }
+
+    delete this.widthDefinitions[widthCategoryName];
+
+    onDone();
+  }
+
+  setWidthCategoryCallback(
+    widthCategoryName,
+    when,
+    callback,
+    onDone = () => {}
+  ) {
+    if (!this.widthDefinitions[widthCategoryName]) {
+      throw `Error: "${widthCategoryName}" is not found in "widthDefinitions". You need to define it first by using the "defineWidth" method`;
+    }
+
+    const acceptableEvents = {
+      enter: "onEnter",
+      inside: "whileInside",
+      leave: "onLeave",
+    };
+
+    if (!Object.keys(acceptableEvents).includes(when))
+      throw `Error: The second parameter (when) has to be a string with a value of either "enter", "inside" or "leave". "${when}" was supplied`;
+
+    const eventName = acceptableEvents[when];
+
+    const callbackType = typeof callback;
+    if (callbackType !== "function") {
+      throw this._typeErrorMessageBuilder(
+        `"${eventName}" for "${widthCategoryName}" inside "widthDefinitions"`,
+        "function",
+        callbackType
+      );
+    }
+
+    this.widthDefinitions[widthCategoryName][eventName] = () => callback();
+
+    this._computeIsAndCallbacks();
+
+    onDone();
+  }
+
+  removeWidthCategoryCallback(widthCategoryName, when, onDone = () => {}) {
+    if (!this.widthDefinitions[widthCategoryName]) {
+      throw `"${widthCategoryName}" is not found in "widthDefinitions" for callback removal`;
+    }
+
+    const acceptableEvents = {
+      enter: "onEnter",
+      inside: "whileInside",
+      leave: "onLeave",
+    };
+
+    if (!Object.keys(acceptableEvents).includes(when))
+      throw `Error: The second parameter (when) has to be a string with a value of either "enter", "inside" or "leave". "${when}" was supplied`;
+
+    const eventName = acceptableEvents[when];
+
+    delete this.widthDefinitions[widthCategoryName][eventName];
+
+    onDone();
+  }
+
+  _typeErrorMessageBuilder(property, type, valueProvided) {
+    const typeOfValueProvided = typeof valueProvided;
+    return `Error: ${property} has to be ${this._aOrAn(
+      type
+    )} ${type} but ${this._aOrAn(
+      typeOfValueProvided
+    )} ${typeOfValueProvided} was provided`;
+  }
+
+  _isValidInclusion(inclusion) {
+    const validInclusionRegex = /^[\[\(]{1}[\]\)]{1}/;
+    return validInclusionRegex.test(inclusion);
+  }
+
+  _isWidthIncluded(screenSizeName, minWidth, maxWidth, inclusion) {
+    if (!this._isValidInclusion(inclusion)) {
+      throw `Error: Invalid inclusion provided for screen size "${screenSizeName}". The only valid combinations are "[]", "()", "[)" and "()"`;
+    }
+
+    const includeStart = inclusion[0] == "[" ? true : false;
+    const includeEnd = inclusion[1] == "]" ? true : false;
+
+    let startPass = includeStart
+      ? this.width >= minWidth
+      : this.width > minWidth;
+    let endPass = includeEnd ? this.width <= maxWidth : this.width < maxWidth;
+
+    return startPass && endPass;
+  }
+
+  _isEmptyObject(obj) {
+    for (const prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  }
+
+  _computeIsAndCallbacks() {
+    for (let [name, property] of Object.entries(this.widthDefinitions)) {
+      let oldIs = this.is[name];
+
+      const _isWidthIncluded = this._isWidthIncluded(
+        name,
+        property.min,
+        property.max,
+        property.inclusion
+      );
+      this.is[name] = _isWidthIncluded;
+
+      if (_isWidthIncluded && this.widthDefinitions[name].whileInside) {
+        this.widthDefinitions[name].whileInside(this);
+      }
+
+      if (
+        oldIs === false &&
+        _isWidthIncluded &&
+        this.widthDefinitions[name].onEnter
+      ) {
+        this.widthDefinitions[name].onEnter(this);
+      }
+
+      if (
+        oldIs === true &&
+        !_isWidthIncluded &&
+        this.widthDefinitions[name].onLeave
+      ) {
+        this.widthDefinitions[name].onLeave(this);
+      }
+    }
+  }
+
+  _resizeHandler() {
+    const oldWidth = this.width;
+    const oldHeight = this.height;
+
+    this.width = Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0
+    );
+    this.height = Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
+
+    this._computeIsAndCallbacks();
+
+    if (oldWidth !== this.width && oldHeight === this.height) {
+      this.onWidthChange(this);
+    } else if (oldWidth === this.width && oldHeight !== this.height) {
+      this.onHeightChange(this);
+    } else if (
+      oldWidth &&
+      oldHeight &&
+      this.width &&
+      this.height &&
+      oldWidth !== this.width &&
+      oldHeight !== this.height
+    ) {
+      this.onBothChange(this);
+    }
+  }
+}
+
+module.exports = ScreenSizeDetector;
 
 
 /***/ }),

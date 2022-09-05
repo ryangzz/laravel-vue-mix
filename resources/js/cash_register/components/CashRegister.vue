@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <Accordion class="w-100 fixed-top">
+      <Accordion v-if="showStickyPayment" class="w-100 fixed-top position-sticky">
         <AccordionTab>
           <template #header>
             <div>
               <div>
-                Total: $<strong>{{ total }}</strong>
+                Total: $<strong>{{ total }}</strong> [{{totalQuantityItems}} Arts.]
               </div>
             </div>
           </template>
@@ -38,7 +38,7 @@
                   <InputNumber
                     class="p-inputtext-sm text-center"
                     placeholder="Cantidad"
-                    min="1"
+                    :min="1"
                     v-model="item.quantity"
                   ></InputNumber>
                   <AppButton
@@ -62,6 +62,7 @@
           </div>
           <AppButton
             @click="makePayment"
+            :disabled="! canBePaid"
             class="
               p-button-rounded
               w-100
@@ -79,23 +80,35 @@
         <Sidebar
           v-model:visible="visibleRight"
           :base-z-index="10000"
-          position="full"
+          :position="fullScreenSideBar ? 'full' : 'right'"
         >
-          <h4 class="font-weight-normal">Por establecer: $240.00</h4>
+          <div class="d-flex justify-content-between">
+            <h4 class="font-weight-normal">Total:  ${{ parseFloat(total).toFixed(2) }}</h4>
+            <h4 class="font-weight-normal text-right">Por establecer:  ${{ parseFloat(amountToEstablish).toFixed(2) }}</h4>
+          </div>
 
           <div class="mb-4">
             <h5>Efectivo <i class="fas fa-money-bill-wave"></i></h5>
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">$</span>
-              <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
+              <AppInput class="p-inputtext-sm" v-model="payment.cash" placeholder="0.00"></AppInput>
               <AppButton
+                :disabled="amountToEstablish <= 0"
+                @click="stablishRemaining({ payment_type: payment_types.CASH })"
                 class="p-button-help"
-                v-tooltip.top="'Establecer restante'"
+                v-tooltip.left="'Establecer restante'"
                 icon="far fa-hand-lizard"
               ></AppButton>
-              <AppButton
-                v-tooltip="'Quitar todo'"
+              <AppButton v-if="payment.cash != ''"
+                @click="removeAmountToTypePayment({ payment_type: payment_types.CASH })"
+                v-tooltip.left="'Quitar todo'"
                 icon="fas fa-hand-holding"
+              ></AppButton>
+              <AppButton
+                v-else
+                v-tooltip.left="'Establecer todo'"
+                @click="stablishTotalAmount({payment_type: payment_types.CASH })"
+                icon="fas fa-hand-holding-usd"
               ></AppButton>
             </div>
           </div>
@@ -104,18 +117,28 @@
             <h5>Tarjeta de credito <i class="far fa-credit-card"></i></h5>
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">$</span>
-              <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
+              <AppInput class="p-inputtext-sm" v-model="payment.credit" placeholder="0.00"></AppInput>
               <AppButton
                 class="p-button-help"
-                v-tooltip.top="'Establecer restante'"
+                :disabled="amountToEstablish <= 0"
+                @click="stablishRemaining({ payment_type: payment_types.CREDIT })"
+                v-tooltip.left="'Establecer restante'"
                 icon="far fa-hand-lizard"
               ></AppButton>
+              
+              <AppButton v-if="payment.credit != ''"
+                @click="removeAmountToTypePayment({ payment_type: payment_types.CREDIT })"
+                v-tooltip.left="'Quitar todo'"
+                icon="fas fa-hand-holding"
+              ></AppButton>
               <AppButton
-                v-tooltip="'Establecer todo'"
+                v-else
+                v-tooltip.left="'Establecer todo'"
+                @click="stablishTotalAmount({payment_type: payment_types.CREDIT })"
                 icon="fas fa-hand-holding-usd"
               ></AppButton>
             </div>
-            <div class="d-flex justify-content-between align-items-center">
+            <div v-if="payment.credit != ''" class="d-flex justify-content-between align-items-center">
               <h6 class="mb-0">Folio:</h6>
               <AppInput
                 style="height: 30px"
@@ -131,18 +154,27 @@
               <!-- <h5>Otro <i class="fas fa-pen"></i></h5> -->
               <div class="p-inputgroup">
                 <span class="p-inputgroup-addon">$</span>
-                <AppInput class="p-inputtext-sm" placeholder="0.00"></AppInput>
+                <AppInput class="p-inputtext-sm" v-model="payment.other_payment" placeholder="0.00"></AppInput>
                 <AppButton
                   class="p-button-help"
+                  :disabled="amountToEstablish <= 0"
+                  @click="stablishRemaining({ payment_type: payment_types.OTHER })"
                   v-tooltip.top="'Establecer restante'"
                   icon="far fa-hand-lizard"
                 ></AppButton>
+                <AppButton v-if="payment.other_payment != ''"
+                  @click="removeAmountToTypePayment({ payment_type: payment_types.OTHER })"
+                  v-tooltip.left="'Quitar todo'"
+                  icon="fas fa-hand-holding"
+                ></AppButton>
                 <AppButton
-                  v-tooltip="'Establecer todo'"
+                  v-else
+                  v-tooltip.left="'Establecer todo'"
+                  @click="stablishTotalAmount({payment_type: payment_types.OTHER })"
                   icon="fas fa-hand-holding-usd"
                 ></AppButton>
               </div>
-              <div class="d-flex justify-content-end align-items-center">
+              <div v-if="payment.other_payment != ''" class="d-flex justify-content-end align-items-center">
                 <AppInput
                   style="height: 30px"
                   type="text"
@@ -172,6 +204,7 @@
 
           <AppButton
             @click="makePayment"
+            :disabled="! canBePaid"
             class="
               p-button-rounded
               w-100
@@ -277,7 +310,7 @@
         <Card class="right-panel">
           <template #content>
             <h4>
-              Total: <strong>${{ total }}</strong>
+              Total: <strong>${{ total }}</strong> [{{totalQuantityItems}} Arts.]
             </h4>
             <p v-if="cartItems.length == 0">Sin productos</p>
             <div v-else class="product-scroll">
@@ -309,7 +342,7 @@
                     <InputNumber
                       class="p-inputtext-sm text-center"
                       placeholder="Cantidad"
-                      min="1"
+                      :min="1"
                       v-model="item.quantity"
                     ></InputNumber>
                     <AppButton
@@ -333,6 +366,7 @@
             </div>
             <AppButton
               @click="makePayment"
+              :disabled="! canBePaid"
               class="
                 p-button-rounded
                 w-100
@@ -424,10 +458,10 @@
     <Speeddial
       :model="items"
       :tooltip-options="{ position: 'left' }"
-      :radius="100"
+      :radius="80"
       direction="up-left"
       type="quarter-circle"
-      button-class="p-button-success"
+      button-class="p-button-primary"
     ></Speeddial>
   </div>
 </template>
@@ -452,11 +486,21 @@ import InputNumber from "primevue/inputnumber";
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import { mapState, mapActions, mapGetters } from "vuex";
-
-
+import payment_types from "../../constants/payment_types";
+import ScreenSizeDetector from 'screen-size-detector';
+const screen = new ScreenSizeDetector(); 
 export default defineComponent({
+  mounted(){
+      if(screen.is.mobile || screen.is.smartwatch){
+        this.showStickyPayment = true;
+        this.fullScreenSideBar = true;
+      }
+  },
   data() {
     return {
+      showStickyPayment: false,
+      fullScreenSideBar: false,
+      payment_types,
       searchTextFavorites: "",
       titleCategoryModal: "",
       searchCodeInput : "",
@@ -486,7 +530,8 @@ export default defineComponent({
         {
           label: "Pagar",
           icon: "pi pi-money-bill",
-          command: () => {            
+          command: () => { 
+            if(! this.canBePaid) return;           
             this.makePayment()
           },
         },
@@ -508,18 +553,15 @@ export default defineComponent({
           label: "Capturar código",
           icon: "fas fa-barcode",
           command: () => {
-            const toast = this.$refs.toast;
-            const x = this.$refs.inputBarcode;
-            //x.focus();
-            console.log(x.focus());
+            this.$refs.inputBarcode.focus();                                    
           },
         },
       ],
     };
   },
   computed: {
-    ...mapGetters('cashRegister', ['total']),
-    ...mapState('cashRegister', ['products', 'categories', 'cartItems']),
+    ...mapGetters('cashRegister', ['total', 'amountToEstablish', 'totalQuantityItems']),
+    ...mapState('cashRegister', ['products', 'categories', 'cartItems', 'payment']),
     productsFiltered(){
       const favoriteProducts = this.products.filter(p => p.is_favorite);
       if (this.searchTextFavorites == "") {
@@ -536,11 +578,14 @@ export default defineComponent({
       return this.products.filter(p => {
         return p.category_id == this.categorySelected.id
       })
+    },
+    canBePaid(){
+      return this.total > 0;
     }
   },
 
   methods: {
-    ...mapActions('cashRegister', ['addProduct', 'searchByCode', 'deleteAllProducts', 'updateProductQuantity', 'deleteProduct']),
+    ...mapActions('cashRegister', ['addProduct', 'stablishRemaining', 'stablishTotalAmount', 'removeAmountToTypePayment', 'searchByCode', 'deleteAllProducts', 'updateProductQuantity', 'deleteProduct']),
     subQuantity(item){
       this.updateProductQuantity({product:item, quantity: item.quantity - 1})      
     },
@@ -627,7 +672,7 @@ export default defineComponent({
   width: 30px !important;
   height: 50px !important;
   bottom: 50px !important;
-  right: 70px !important;
+  right: 40px !important;
   text-align: center;
   z-index: 1020;
 }

@@ -14,14 +14,17 @@ import 'primeicons/primeicons.css';
 
 import ExampleComponent from './components/ExampleComponent.vue';
 import CashRegisterContainerComponent from './cash_register/CashRegisterContainer.vue';
-
+import InventaryManageComponent from './inventary_manage/InventaryManageContainer.vue';
+import TestComponent from  './testComponent/testComponent.vue';
 
 import store from './store';
 
 const app = createApp({
   components:{
     ExampleComponent,
-    CashRegisterContainerComponent
+    CashRegisterContainerComponent,
+    InventaryManageComponent,
+    TestComponent
   }
 })
 

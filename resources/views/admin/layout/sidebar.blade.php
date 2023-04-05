@@ -42,7 +42,7 @@
               </p>
             </a>            
           </li>
-          @if(request()->user()->can(App\Enums\PermissionsEnum::UserShow->value))                                                   
+          @if(true)                                                   
           <li class="nav-item">
             <a href="{{ route('users.index') }}" class="nav-link @if(request()->route()->named('users.*')) active @endif">
               <i class="nav-icon fas fa-users"></i>

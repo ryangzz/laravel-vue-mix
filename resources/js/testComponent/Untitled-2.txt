@@ -1,0 +1,7 @@
+-boton que agrega inventariorder funcionalidad
+-boton que edita el invetario cantidad 
+-Quitar Alamacen OK
+-Input mas chico OK
+-implementar datatble primvevue scroll x y 
+-componetes catalogos simples seleccionales con tabs u botones
+-Indicadores

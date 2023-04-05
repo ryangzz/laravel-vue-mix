@@ -1,0 +1,91 @@
+{"productos":[
+    {
+        "costp": 20,
+        "costs": 79,
+        "amount": 10,
+        "id_product": 1,
+        "desc": "Pizza pepperoni",
+        "status": true,
+        "barcode": 12341,
+        "name": "Pizza pepperoni",
+        "categorie": "Pizzas",
+        "branch": "Morelos"
+    },
+    {
+        "costp": 40,
+        "costs": 120,
+        "amount": 20,
+        "id_product": 2,
+        "desc": "Pizza hawaiana",
+        "status": true,
+        "barcode": 12342,
+        "name": "Pizza hawaiana",
+        "categorie": "Pizzas",
+        "branch": "Morelos"
+    },
+    {
+        "costp": 40,
+        "costs": 100,
+        "amount": 20,
+        "id_product": 3,
+        "desc": "Pizza 3 Quesos",
+        "status": true,
+        "barcode": 12343,
+        "name": "Pizza 3 Quesos",
+        "categorie": "Pizzas",
+        "branch": "Morelos"
+    },
+    {
+        "costp": 60,
+        "costs": 150,
+        "amount": 8,
+        "id_product": 4,
+        "desc": "Pizza 4 Carnes",
+        "status": true,
+        "barcode": 12344,
+        "name": "Pizza 4 Carnes",
+        "categorie": "Pizzas",
+        "branch": "Morelos"
+    },
+    {
+        "costp":15,
+        "costs": 25,
+        "amount": 30,
+        "id_product": 5,
+        "desc": "Vaso spaghetti Chico",
+        "status": true,
+        "barcode": 12345,
+        "name": "Vaso spaghetti Chico",
+        "categorie": "Aditivos",
+        "branch": "Morelos"
+    },
+    {
+        "costp":20,
+        "costs": 30,
+        "amount": 20,
+        "id_product": 5,
+        "desc": "Vaso spaghetti Mediano",
+        "status": true,
+        "barcode": 12345,
+        "name": "Vaso spaghetti Mediano",
+        "categorie": "Aditivos",
+        "branch": "Morelos"
+    },
+    {
+        "costp":25,
+        "costs": 35,
+        "amount": 15,
+        "id_product": 5,
+        "desc": "Vaso spaghetti Grande",
+        "status": true,
+        "barcode": 12345,
+        "name": "Vaso spaghetti Grande",
+        "categorie": "Aditivos",
+        "branch": "Morelos"
+    }
+],
+"categorias":[
+    { "id": 1, "name": "categorie 1", "status": true },
+    { "id": 2, "name": "categorie 2", "status": true }
+]
+}
